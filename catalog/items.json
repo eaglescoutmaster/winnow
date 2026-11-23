@@ -1,0 +1,5987 @@
+{
+  "$schema": "./items.schema.json",
+  "schemaVersion": 1,
+  "testedBuilds": [
+    19045,
+    22631,
+    26100,
+    26200
+  ],
+  "protected": {
+    "appx": [
+      "Microsoft.SecHealthUI",
+      "Microsoft.Windows.SecHealthUI",
+      "Microsoft.Windows.Apprep.ChxApp",
+      "Microsoft.WindowsStore",
+      "Microsoft.StorePurchaseApp",
+      "Microsoft.DesktopAppInstaller",
+      "Microsoft.Winget.Source",
+      "Microsoft.Services.Store.Engagement",
+      "Microsoft.VCLibs.*",
+      "Microsoft.UI.Xaml.*",
+      "Microsoft.NET.Native.Framework.*",
+      "Microsoft.NET.Native.Runtime.*",
+      "Microsoft.WindowsAppRuntime.*",
+      "MicrosoftCorporationII.WinAppRuntime.*",
+      "Microsoft.DirectXRuntime",
+      "Microsoft.WidgetsPlatformRuntime",
+      "Microsoft.Windows.ShellExperienceHost",
+      "Microsoft.Windows.StartMenuExperienceHost",
+      "MicrosoftWindows.Client.CBS",
+      "MicrosoftWindows.Client.Core",
+      "MicrosoftWindows.Client.CoreAI",
+      "MicrosoftWindows.Client.FileExp",
+      "MicrosoftWindows.Client.OOBE",
+      "MicrosoftWindows.Client.Photon",
+      "MicrosoftWindows.Client.AIX",
+      "Windows.CBSPreview",
+      "Microsoft.AIFabric.CBS.*",
+      "Microsoft.Windows.AugLoop.CBS",
+      "windows.immersivecontrolpanel",
+      "Microsoft.AAD.BrokerPlugin",
+      "Microsoft.AccountsControl",
+      "Microsoft.Windows.CloudExperienceHost",
+      "Microsoft.LockApp",
+      "Microsoft.CredDialogHost",
+      "Microsoft.BioEnrollment",
+      "Microsoft.Windows.ContentDeliveryManager",
+      "Microsoft.Windows.CapturePicker",
+      "Microsoft.Windows.PrintQueueActionCenter",
+      "Windows.PrintDialog",
+      "Microsoft.AsyncTextService",
+      "Microsoft.ECApp",
+      "Microsoft.Windows.OOBENetworkCaptivePortal",
+      "Microsoft.Windows.OOBENetworkConnectionFlow",
+      "Microsoft.Windows.PinningConfirmationDialog",
+      "Microsoft.Windows.AssignedAccessLockApp",
+      "Microsoft.Windows.SecureAssessmentBrowser",
+      "Microsoft.Windows.ParentalControls",
+      "Microsoft.Windows.PeopleExperienceHost",
+      "Microsoft.Windows.NarratorQuickStart",
+      "Microsoft.Windows.XGpuEjectDialog",
+      "Microsoft.PPIProjection",
+      "MicrosoftWindows.UndockedDevKit",
+      "Microsoft.Windows.Search",
+      "Microsoft.MicrosoftEdge.Stable",
+      "Microsoft.MicrosoftEdge",
+      "Microsoft.MicrosoftEdgeDevToolsClient",
+      "Microsoft.Win32WebViewHost",
+      "Microsoft.XboxIdentityProvider",
+      "Microsoft.Xbox.TCUI",
+      "Microsoft.XboxGameCallableUI",
+      "Microsoft.GamingServices",
+      "Microsoft.XboxGamingOverlay",
+      "Microsoft.XboxGameOverlay",
+      "Microsoft.HEVCVideoExtension",
+      "Microsoft.HEIFImageExtension",
+      "Microsoft.WebpImageExtension",
+      "Microsoft.AV1VideoExtension",
+      "Microsoft.VP9VideoExtensions",
+      "Microsoft.RawImageExtension",
+      "Microsoft.MPEG2VideoExtension",
+      "Microsoft.AVCEncoderVideoExtension",
+      "Microsoft.WebMediaExtensions",
+      "Microsoft.WindowsTerminal",
+      "Microsoft.WindowsNotepad",
+      "Microsoft.Paint",
+      "Microsoft.Windows.Photos",
+      "Microsoft.WindowsCalculator",
+      "Microsoft.ScreenSketch"
+    ],
+    "services": [
+      "WinDefend",
+      "WdNisSvc",
+      "MDCoreSvc",
+      "Sense",
+      "SecurityHealthService",
+      "wscsvc",
+      "webthreatdefsvc",
+      "mpssvc",
+      "wuauserv",
+      "UsoSvc",
+      "BITS",
+      "DoSvc",
+      "WaaSMedicSvc",
+      "TrustedInstaller",
+      "AppXSvc",
+      "AppReadiness",
+      "StateRepository",
+      "InstallService",
+      "ClipSVC",
+      "LicenseManager",
+      "sppsvc",
+      "edgeupdate",
+      "edgeupdatem",
+      "MicrosoftEdgeElevationService",
+      "NgcSvc",
+      "NgcCtnrSvc",
+      "WbioSrvc",
+      "TokenBroker",
+      "wlidsvc",
+      "BDESVC",
+      "WSearch",
+      "SysMain",
+      "WpnService",
+      "WpnUserService*",
+      "CDPSvc",
+      "CDPUserSvc*",
+      "DiagTrack",
+      "dmwappushservice",
+      "EventLog",
+      "Schedule",
+      "VSS",
+      "swprv",
+      "camsvc",
+      "WSAIFabricSvc",
+      "GamingServices",
+      "GamingServicesNet",
+      "XblAuthManager",
+      "XblGameSave",
+      "XboxNetApiSvc",
+      "XboxGipSvc"
+    ],
+    "features": [
+      "NetFx3",
+      "NetFx4-AdvSrv",
+      "Windows-Defender-Default-Definitions"
+    ]
+  },
+  "items": [
+    {
+      "id": "telemetry-diagnostic-data-required",
+      "name": "Limit diagnostic data to Required",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
+        "name": "AllowTelemetry"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Sets the level to 1 (Required). 0 is honoured only on Enterprise/Education. Windows Insider builds need Optional diagnostic data, so skip this on Insider machines. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-system",
+        "https://learn.microsoft.com/en-us/windows-insider/business/manage-builds"
+      ]
+    },
+    {
+      "id": "telemetry-feedback-notifications-off",
+      "name": "Turn off feedback notifications",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection",
+        "name": "DoNotShowFeedbackNotifications"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience"
+      ]
+    },
+    {
+      "id": "telemetry-advertising-id-off",
+      "name": "Turn off the advertising ID",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\AdvertisingInfo",
+        "name": "DisabledByGroupPolicy"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy"
+      ]
+    },
+    {
+      "id": "telemetry-tailored-experiences-off",
+      "name": "Turn off tailored experiences with diagnostic data",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+        "name": "DisableTailoredExperiencesWithDiagnosticData"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience"
+      ]
+    },
+    {
+      "id": "telemetry-activity-history-feed",
+      "name": "Turn off the activity feed (activity history)",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "name": "EnableActivityFeed"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Activity history and cross-device resume stop working. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy"
+      ]
+    },
+    {
+      "id": "telemetry-activity-history-publish",
+      "name": "Stop publishing user activities (activity history)",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "name": "PublishUserActivities"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Activity history and cross-device resume stop working. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy"
+      ]
+    },
+    {
+      "id": "telemetry-activity-history-upload",
+      "name": "Stop uploading user activities (activity history)",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+        "name": "UploadUserActivities"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Activity history and cross-device resume stop working. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy"
+      ]
+    },
+    {
+      "id": "telemetry-error-reporting-off",
+      "name": "Turn off Windows Error Reporting",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Error Reporting",
+        "name": "Disabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Crash reports are no longer sent; problem history and automatic solutions stop. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-errorreporting"
+      ]
+    },
+    {
+      "id": "telemetry-feedback-frequency-count",
+      "name": "Feedback frequency: never (count)",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Siuf\\Rules",
+        "name": "NumberOfSIUFInPeriod"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-feedback-frequency-period",
+      "name": "Feedback frequency: never (period)",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Siuf\\Rules",
+        "name": "PeriodInNanoSeconds"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-typing-collection-off",
+      "name": "Stop implicit text collection (typing personalisation)",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\InputPersonalization",
+        "name": "RestrictImplicitTextCollection"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Personal typing dictionary stops learning.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-inking-collection-off",
+      "name": "Stop implicit ink collection (inking personalisation)",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\InputPersonalization",
+        "name": "RestrictImplicitInkCollection"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Handwriting personalisation stops learning.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-online-speech-off",
+      "name": "Turn off online speech recognition",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Speech_OneCore\\Settings\\OnlineSpeechPrivacy",
+        "name": "HasAccepted"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Cloud-based dictation and voice typing stop working.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-language-list-optout",
+      "name": "Do not let websites read the language list",
+      "category": "telemetry",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Control Panel\\International\\User Profile",
+        "name": "HttpAcceptLanguageOptOut"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-app-launch-tracking-off",
+      "name": "Turn off app launch tracking",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+        "name": "Start_TrackProgs"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Start can no longer show most-used apps.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-delivery-optimization-http-only",
+      "name": "Delivery Optimization: no peer-to-peer",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization",
+        "name": "DODownloadMode"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Download mode 0 (HTTP only): updates are no longer shared with or fetched from other PCs. The DoSvc service is left alone. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-deliveryoptimization",
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "telemetry-service-diagtrack",
+      "name": "Disable the Connected User Experiences and Telemetry service",
+      "category": "telemetry",
+      "tier": "never-default",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "name": "DiagTrack"
+      },
+      "detect": {
+        "op": "service-startup",
+        "startup": "Disabled"
+      },
+      "remove": {
+        "op": "service-disable"
+      },
+      "revert": {
+        "op": "service-restore",
+        "defaultStartup": "Automatic"
+      },
+      "notes": "Protected. Microsoft has no client guidance for disabling it; Insider flighting, Feedback Hub and update-failure reporting depend on diagnostic data. Prefer telemetry-diagnostic-data-required.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server",
+        "https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/optimize/services",
+        "https://learn.microsoft.com/en-us/windows-insider/business/manage-builds",
+        "https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization"
+      ]
+    },
+    {
+      "id": "telemetry-service-dmwappush",
+      "name": "Disable the WAP Push Message Routing service",
+      "category": "telemetry",
+      "tier": "never-default",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "name": "dmwappushservice"
+      },
+      "detect": {
+        "op": "service-startup",
+        "startup": "Disabled"
+      },
+      "remove": {
+        "op": "service-disable"
+      },
+      "revert": {
+        "op": "service-restore",
+        "defaultStartup": "Manual"
+      },
+      "notes": "Protected. Microsoft: required on client devices for Intune and MDM.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server",
+        "https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/optimize/services"
+      ]
+    },
+    {
+      "id": "telemetry-service-mapsbroker",
+      "name": "Disable the Downloaded Maps Manager service",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "name": "MapsBroker"
+      },
+      "detect": {
+        "op": "service-startup",
+        "startup": "Disabled"
+      },
+      "remove": {
+        "op": "service-disable"
+      },
+      "revert": {
+        "op": "service-restore",
+        "defaultStartup": "AutomaticDelayedStart"
+      },
+      "notes": "Microsoft: OK to disable; apps lose access to downloaded maps.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server",
+        "https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/optimize/services"
+      ]
+    },
+    {
+      "id": "telemetry-service-retaildemo",
+      "name": "Disable the Retail Demo service",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "name": "RetailDemo"
+      },
+      "detect": {
+        "op": "service-startup",
+        "startup": "Disabled"
+      },
+      "remove": {
+        "op": "service-disable"
+      },
+      "revert": {
+        "op": "service-restore",
+        "defaultStartup": "Manual"
+      },
+      "notes": "Microsoft: OK to disable.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/optimize/services"
+      ]
+    },
+    {
+      "id": "telemetry-task-compat-appraiser",
+      "name": "Disable the Microsoft Compatibility Appraiser task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\Application Experience\\",
+        "taskName": "Microsoft Compatibility Appraiser"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Path from community sources; Microsoft documents the task name and purpose only. Disabled, not deleted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "telemetry-task-programdataupdater",
+      "name": "Disable the ProgramDataUpdater task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": 19045
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\Application Experience\\",
+        "taskName": "ProgramDataUpdater"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Community-sourced. Reported present on Windows 10 22H2 and missing on Windows 11.",
+      "sources": [
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "telemetry-task-autochk-proxy",
+      "name": "Disable the Autochk SQM proxy task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\Autochk\\",
+        "taskName": "Proxy"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Path from community sources; Microsoft documents the task name and purpose only. Disabled, not deleted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "telemetry-task-ceip-consolidator",
+      "name": "Disable the CEIP Consolidator task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\Customer Experience Improvement Program\\",
+        "taskName": "Consolidator"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Path from community sources; Microsoft documents the task name and purpose only. Disabled, not deleted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "telemetry-task-ceip-usbceip",
+      "name": "Disable the USB CEIP task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\Customer Experience Improvement Program\\",
+        "taskName": "UsbCeip"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Path from community sources; Microsoft documents the task name and purpose only. Disabled, not deleted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "telemetry-task-disk-diagnostic-collector",
+      "name": "Disable the disk diagnostic data collector task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\DiskDiagnostic\\",
+        "taskName": "Microsoft-Windows-DiskDiagnosticDataCollector"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Path from community sources; Microsoft documents the task name and purpose only. Disabled, not deleted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "telemetry-task-wer-queue-reporting",
+      "name": "Disable the Windows Error Reporting queue task",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "taskPath": "\\Microsoft\\Windows\\Windows Error Reporting\\",
+        "taskName": "QueueReporting"
+      },
+      "detect": {
+        "op": "task-disabled"
+      },
+      "remove": {
+        "op": "task-disable"
+      },
+      "revert": {
+        "op": "task-enable"
+      },
+      "notes": "Path from community sources; Microsoft documents the task name and purpose only. Disabled, not deleted. Queued crash reports are no longer sent.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml",
+        "https://github.com/W4RH4WK/Debloat-Windows-10"
+      ]
+    },
+    {
+      "id": "edge-startup-boost-off",
+      "name": "Edge: turn off startup boost",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "StartupBoostEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/startupboostenabled"
+      ]
+    },
+    {
+      "id": "edge-background-mode-off",
+      "name": "Edge: do not keep running in the background",
+      "category": "edge",
+      "tier": "moderate",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "BackgroundModeEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Background extensions and installed web apps stop running after Edge is closed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/backgroundmodeenabled"
+      ]
+    },
+    {
+      "id": "edge-first-run-hide",
+      "name": "Edge: hide the first-run experience",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "HideFirstRunExperience"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/hidefirstrunexperience"
+      ]
+    },
+    {
+      "id": "edge-recommendations-off",
+      "name": "Edge: turn off recommendations and promotional notifications",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "ShowRecommendationsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/showrecommendationsenabled"
+      ]
+    },
+    {
+      "id": "edge-spotlight-recommendations-off",
+      "name": "Edge: turn off spotlight experiences and recommendations",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "SpotlightExperiencesAndRecommendationsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/spotlightexperiencesandrecommendationsenabled"
+      ]
+    },
+    {
+      "id": "edge-personalization-reporting-off",
+      "name": "Edge: turn off personalisation of ads and news from browsing data",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "PersonalizationReportingEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/personalizationreportingenabled"
+      ]
+    },
+    {
+      "id": "edge-shopping-assistant-off",
+      "name": "Edge: turn off shopping assistant",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "EdgeShoppingAssistantEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/edgeshoppingassistantenabled"
+      ]
+    },
+    {
+      "id": "edge-rewards-off",
+      "name": "Edge: hide Microsoft Rewards",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "ShowMicrosoftRewards"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/showmicrosoftrewards"
+      ]
+    },
+    {
+      "id": "edge-default-browser-campaign-off",
+      "name": "Edge: stop default-browser campaigns",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "DefaultBrowserSettingsCampaignEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/defaultbrowsersettingscampaignenabled"
+      ]
+    },
+    {
+      "id": "edge-new-tab-content-off",
+      "name": "Edge: turn off Microsoft content on the new tab page",
+      "category": "edge",
+      "tier": "moderate",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "NewTabPageContentEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "The news feed on the new tab page disappears. Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/newtabpagecontentenabled"
+      ]
+    },
+    {
+      "id": "edge-sidebar-off",
+      "name": "Edge: turn off the sidebar",
+      "category": "edge",
+      "tier": "moderate",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "HubsSidebarEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Removes the sidebar, including Copilot in the sidebar on Edge versions before 141. Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/hubssidebarenabled"
+      ]
+    },
+    {
+      "id": "edge-no-desktop-shortcut",
+      "name": "Edge: do not create a desktop shortcut on install",
+      "category": "edge",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\EdgeUpdate",
+        "name": "CreateDesktopShortcutDefault"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "No effect if Edge is already installed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-update-policies"
+      ]
+    },
+    {
+      "id": "onedrive-block-folder-backup-prompt",
+      "name": "OneDrive: block the folder backup (Known Folder Move) prompt",
+      "category": "onedrive",
+      "tier": "safe",
+      "tags": [
+        "onedrive"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\OneDrive",
+        "name": "KFMBlockOptIn"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Does not move folders that are already backed up. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/sharepoint/use-group-policy"
+      ]
+    },
+    {
+      "id": "onedrive-disable-file-sync",
+      "name": "OneDrive: prevent use for file storage",
+      "category": "onedrive",
+      "tier": "aggressive",
+      "tags": [
+        "onedrive"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\OneDrive",
+        "name": "DisableFileSyncNGSC"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Stops all OneDrive sync and removes it from File Explorer. If Desktop/Documents are redirected into OneDrive (folder backup), turn that off in OneDrive first or files will appear missing. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-system",
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "ads-explorer-sync-provider-off",
+      "name": "Hide sync provider notifications in File Explorer",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+        "name": "ShowSyncProviderNotifications"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Community-sourced; no Microsoft documentation.",
+      "sources": [
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1",
+        "https://raw.githubusercontent.com/undergroundwires/privacy.sexy/master/src/application/collections/windows.yaml"
+      ]
+    },
+    {
+      "id": "widgets-policy-off",
+      "name": "Turn off Widgets",
+      "category": "widgets",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Dsh",
+        "name": "AllowNewsAndInterests"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Applies to the whole widgets experience including the taskbar. Microsoft lists Pro, Enterprise and Education. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-newsandinterests",
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "widgets-news-and-interests-off",
+      "name": "Turn off News and interests on the taskbar",
+      "category": "widgets",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": 19045
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Feeds",
+        "name": "EnableFeeds"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-feeds"
+      ]
+    },
+    {
+      "id": "search-highlights-off",
+      "name": "Turn off search highlights",
+      "category": "search",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+        "name": "EnableDynamicContentInWSB"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-search"
+      ]
+    },
+    {
+      "id": "search-cortana-off",
+      "name": "Turn off Cortana in search",
+      "category": "search",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+        "name": "AllowCortana"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience",
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "search-web-results-off",
+      "name": "Do not use web results in search",
+      "category": "search",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+        "name": "ConnectedSearchUseWeb"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft lists this policy as not supported on Pro; it may have no effect there. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-search",
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "search-web-search-off",
+      "name": "Do not allow web search",
+      "category": "search",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search",
+        "name": "DisableWebSearch"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "From Microsoft's restricted-traffic baseline; not on the Search CSP page. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "search-box-suggestions-off",
+      "name": "Turn off search box suggestions (Bing results in Start)",
+      "category": "search",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+        "name": "DisableSearchBoxSuggestions"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents only the File Explorer effect; hiding Bing results in Start is community practice. Disabling Bing search is a repeated suspect in broken Start search reports; revert if Start search stops returning results. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Bing_Cortana_In_Search.reg"
+      ]
+    },
+    {
+      "id": "ads-start-suggestions-338388",
+      "name": "Turn off suggestions in Start (338388)",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-338388Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-start-suggestions-pane",
+      "name": "Turn off suggestions in Start (system pane)",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SystemPaneSuggestionsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1",
+        "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10Debloater.ps1"
+      ]
+    },
+    {
+      "id": "ads-tips-338389",
+      "name": "Turn off tips, tricks and suggestions",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-338389Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-settings-suggestions-338393",
+      "name": "Turn off suggested content in Settings (338393)",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-338393Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-settings-suggestions-353694",
+      "name": "Turn off suggested content in Settings (353694)",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-353694Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-settings-suggestions-353696",
+      "name": "Turn off suggested content in Settings (353696)",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-353696Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-welcome-experience-310093",
+      "name": "Turn off the Windows welcome experience",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-310093Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-lock-screen-tips-338387",
+      "name": "Turn off lock screen fun facts and tips",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SubscribedContent-338387Enabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Lockscreen_Tips.reg",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-silent-app-install-off",
+      "name": "Stop automatic installation of suggested apps",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "SilentInstalledAppsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1",
+        "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10Debloater.ps1"
+      ]
+    },
+    {
+      "id": "ads-preinstalled-apps-off",
+      "name": "Stop preinstalled app delivery",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "PreInstalledAppsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1",
+        "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10Debloater.ps1"
+      ]
+    },
+    {
+      "id": "ads-oem-preinstalled-apps-off",
+      "name": "Stop OEM preinstalled app delivery",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "OemPreInstalledAppsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1",
+        "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10Debloater.ps1"
+      ]
+    },
+    {
+      "id": "ads-content-delivery-off",
+      "name": "Turn off content delivery",
+      "category": "ads",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+        "name": "ContentDeliveryAllowed"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "May also stop Windows Spotlight images on the lock screen. Value meaning is not documented by Microsoft; mapping from community sources.",
+      "sources": [
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1",
+        "https://raw.githubusercontent.com/Sycnex/Windows10Debloater/master/Windows10Debloater.ps1"
+      ]
+    },
+    {
+      "id": "ads-finish-setup-off",
+      "name": "Turn off 'finish setting up your device' prompts",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\UserProfileEngagement",
+        "name": "ScoobeSystemSettingEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/previous-versions/windows-server/it-pro/windows-server-2019/remote/remote-desktop-services/rds-vdi-recommendations-2004",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1"
+      ]
+    },
+    {
+      "id": "ads-start-recommendations-off",
+      "name": "Turn off Start recommendations for tips, shortcuts and new apps",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+        "name": "Start_IrisRecommendations"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Community-sourced; no Microsoft documentation.",
+      "sources": [
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1"
+      ]
+    },
+    {
+      "id": "ads-start-account-notifications-off",
+      "name": "Turn off account-related notifications in Start",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+        "name": "Start_AccountNotifications"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "registry-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "registry-restore"
+      },
+      "notes": "Community-sourced; no Microsoft documentation.",
+      "sources": [
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Windows_Suggestions.reg",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1"
+      ]
+    },
+    {
+      "id": "ads-third-party-suggestions-off",
+      "name": "Turn off third-party suggestions in Windows Spotlight",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+        "name": "DisableThirdPartySuggestions"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience"
+      ]
+    },
+    {
+      "id": "ads-consumer-features-off",
+      "name": "Turn off Microsoft consumer experiences",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+        "name": "DisableWindowsConsumerFeatures"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft lists Enterprise and Education only; ignored on Pro and Home. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-experience",
+        "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services"
+      ]
+    },
+    {
+      "id": "ads-ink-workspace-suggested-apps-off",
+      "name": "Turn off suggested apps in Windows Ink Workspace",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\WindowsInkWorkspace",
+        "name": "AllowSuggestedAppsInWindowsInkWorkspace"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsinkworkspace",
+        "https://raw.githubusercontent.com/Disassembler0/Win10-Initial-Setup-Script/master/Win10.psm1"
+      ]
+    },
+    {
+      "id": "ads-meet-now-off",
+      "name": "Remove the Meet Now icon",
+      "category": "ads",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": 19045
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+        "name": "HideSCAMeetNow"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents the group policy; the value name is from community sources. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/configuration/taskbar/policy-settings",
+        "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Regfiles/Disable_Chat_Taskbar.reg",
+        "https://raw.githubusercontent.com/farag2/Sophia-Script-for-Windows/master/src/Sophia_Script_for_Windows_11/Module/Sophia.psm1"
+      ]
+    },
+    {
+      "id": "appx-bingnews",
+      "name": "Remove Microsoft News",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.BingNews"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHVFW"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHVFW",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-bingweather",
+      "name": "Remove MSN Weather",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.BingWeather"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ3Q2"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ3Q2",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-bingsearch",
+      "name": "Remove Microsoft Bing (web search in Windows Search)",
+      "category": "search",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.BingSearch"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NZBF4GT040C"
+      },
+      "notes": "Web search provider for Windows Search.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NZBF4GT040C",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-clipchamp-clipchamp",
+      "name": "Remove Microsoft Clipchamp",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Clipchamp.Clipchamp"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9P1J8S7CCWWT"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9P1J8S7CCWWT",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-microsoftsolitairecollection",
+      "name": "Remove Microsoft Solitaire Collection",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.MicrosoftSolitaireCollection"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHWD2"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHWD2",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-teams-consumer",
+      "name": "Remove Microsoft Teams (consumer / Chat, Win11 21H2-23H2 era)",
+      "category": "appx",
+      "tier": "safe",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "MicrosoftTeams"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": null
+      },
+      "notes": "Consumer Teams (Chat) from Windows 11 21H2 to 23H2.",
+      "sources": [
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-teams",
+      "name": "Remove Microsoft Teams (new, unified)",
+      "category": "appx",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "MSTeams"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": null
+      },
+      "notes": "Microsoft Teams. Skip if used for work or school.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://apps.microsoft.com/detail/XP8BT8DW290MPQ",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-outlookforwindows",
+      "name": "Remove Outlook for Windows (new Outlook)",
+      "category": "appx",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.OutlookForWindows"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NRX63209R7B"
+      },
+      "notes": "New Outlook. Skip if it is the mail client in use.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NRX63209R7B",
+        "https://learn.microsoft.com/en-us/microsoft-365-apps/outlook/get-started/control-install",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-windows-devhome",
+      "name": "Remove Dev Home (Store listing now titled 'Windows Advanced Settings')",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.Windows.DevHome"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9N8MHTPHNGVV"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9N8MHTPHNGVV",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-windowsfeedbackhub",
+      "name": "Remove Feedback Hub",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.WindowsFeedbackHub"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH4R32N"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH4R32N",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-gethelp",
+      "name": "Remove Get Help",
+      "category": "appx",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.GetHelp"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9PKDZBMV1H3T"
+      },
+      "notes": "Some Settings troubleshooters open Get Help. Sources conflict (unsafe vs removable).",
+      "sources": [
+        "https://apps.microsoft.com/detail/9PKDZBMV1H3T",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json"
+      ]
+    },
+    {
+      "id": "appx-tips",
+      "name": "Remove Tips (Microsoft Tips)",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.Getstarted"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRDTBJJ"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRDTBJJ",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-windowsmaps",
+      "name": "Remove Windows Maps",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.WindowsMaps"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRDTBVB"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRDTBVB",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-people",
+      "name": "Remove Microsoft People",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.People"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH10PG8"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH10PG8",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-powerautomatedesktop",
+      "name": "Remove Power Automate",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.PowerAutomateDesktop"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NFTCH6J7FHV"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NFTCH6J7FHV",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-todos",
+      "name": "Remove Microsoft To Do",
+      "category": "appx",
+      "tier": "safe",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.Todos"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH5R558"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH5R558",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-microsoftstickynotes",
+      "name": "Remove Microsoft Sticky Notes",
+      "category": "appx",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.MicrosoftStickyNotes"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH4QGHW"
+      },
+      "notes": "Local notes that are not synced can be lost.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH4QGHW",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-quickassist",
+      "name": "Remove Quick Assist",
+      "category": "appx",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "MicrosoftCorporationII.QuickAssist"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9P7BP5VNWKX5"
+      },
+      "notes": "Remote assistance tool.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9P7BP5VNWKX5",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-microsoftofficehub",
+      "name": "Remove Microsoft 365 Copilot (formerly Office / Microsoft 365 hub)",
+      "category": "appx",
+      "tier": "safe",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.MicrosoftOfficeHub"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRD29V9"
+      },
+      "notes": "Microsoft 365 Copilot app (formerly Office hub). Not the Office desktop apps.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRD29V9",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-copilot",
+      "name": "Remove Microsoft Copilot (consumer)",
+      "category": "ai",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "sometimes",
+      "target": {
+        "packageName": "Microsoft.Copilot"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NHT9RB2F4HD"
+      },
+      "notes": "Removes the Copilot app. Windows may reinstall it; pair with the Copilot policies.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NHT9RB2F4HD",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://learn.microsoft.com/en-us/windows/client-management/deploy-unified-copilot-app",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-windows-copilot",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps"
+      ]
+    },
+    {
+      "id": "appx-xbox-app",
+      "name": "Remove Xbox app",
+      "category": "appx",
+      "tier": "aggressive",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.GamingApp"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9MV0B5HZVK9Z"
+      },
+      "notes": "Xbox app. Skip if the user games on this PC.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9MV0B5HZVK9Z",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-game-bar",
+      "name": "Remove Game Bar (Xbox Game Bar)",
+      "category": "appx",
+      "tier": "never-default",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.XboxGamingOverlay"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NZKPSTSNW4P"
+      },
+      "notes": "Protected. Removing Game Bar alone causes ms-gamingoverlay pop-ups in games.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NZKPSTSNW4P",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-xboxgameoverlay",
+      "name": "Remove Xbox Game Bar Plugin",
+      "category": "appx",
+      "tier": "never-default",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.XboxGameOverlay"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH537C2"
+      },
+      "notes": "Protected. Game Bar component.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH537C2",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-xboxspeechtotextoverlay",
+      "name": "Remove Xbox Game Speech Window (speech-to-text overlay)",
+      "category": "appx",
+      "tier": "aggressive",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.XboxSpeechToTextOverlay"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9P086NHDNB9W"
+      },
+      "notes": "Skip if the user games on this PC.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9P086NHDNB9W",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-xbox-tcui",
+      "name": "Remove Xbox Live in-game experience (Xbox TCUI)",
+      "category": "appx",
+      "tier": "never-default",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.Xbox.TCUI"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NKNC0LD5NN6"
+      },
+      "notes": "Protected. Xbox sign-in UI used by Store games. Sources conflict: Microsoft's own policy example removes it, tool authors rate it unsafe; the stricter tier is used.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NKNC0LD5NN6",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-xboxidentityprovider",
+      "name": "Remove Xbox Identity Provider",
+      "category": "appx",
+      "tier": "never-default",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.XboxIdentityProvider"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRD1HKW"
+      },
+      "notes": "Protected. Xbox sign-in for Store and Game Pass games. Sources conflict as for Xbox.TCUI.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRD1HKW",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-xbox-console-companion",
+      "name": "Remove Xbox Console Companion (Win10)",
+      "category": "appx",
+      "tier": "safe",
+      "tags": [
+        "gaming"
+      ],
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.XboxApp"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJBD8"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJBD8",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-media-player",
+      "name": "Remove Windows Media Player (formerly Groove Music)",
+      "category": "appx",
+      "tier": "aggressive",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.ZuneMusic"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ3PT"
+      },
+      "notes": "Windows Media Player (formerly Groove Music): the default audio player.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ3PT",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-movies-and-tv",
+      "name": "Remove Movies & TV",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.ZuneVideo"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ3P2"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ3P2",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json"
+      ]
+    },
+    {
+      "id": "appx-phone-link",
+      "name": "Remove Phone Link (formerly Your Phone)",
+      "category": "appx",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.YourPhone"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NMPJ99VJBWV"
+      },
+      "notes": "Phone Link. Skip if a phone is linked.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NMPJ99VJBWV",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-cortana",
+      "name": "Remove Cortana",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.549981C3F5F10"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NFFX4SZZ23L"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NFFX4SZZ23L",
+        "https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-mixedreality-portal",
+      "name": "Remove Mixed Reality Portal",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.MixedReality.Portal"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NG1H8B3ZC7M"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NG1H8B3ZC7M",
+        "https://learn.microsoft.com/en-us/windows/whats-new/removed-features",
+        "https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-microsoft3dviewer",
+      "name": "Remove 3D Viewer",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.Microsoft3DViewer"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH42THS"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH42THS",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-paint-3d",
+      "name": "Remove Paint 3D",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.MSPaint"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH5FV99"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH5FV99",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/whats-new/removed-features",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-skypeapp",
+      "name": "Remove Skype",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.SkypeApp"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ364"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ364",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-microsoftfamily",
+      "name": "Remove Microsoft Family Safety",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "MicrosoftCorporationII.MicrosoftFamily"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9PDJDJS743XF"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9PDJDJS743XF",
+        "https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-mail-and-calendar",
+      "name": "Remove Mail and Calendar",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "microsoft.windowscommunicationsapps"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHVQM"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHVQM",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/microsoft-365-apps/outlook/get-started/control-install",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-windowssoundrecorder",
+      "name": "Remove Sound Recorder (Voice Recorder on Win10)",
+      "category": "appx",
+      "tier": "aggressive",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.WindowsSoundRecorder"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHWKN"
+      },
+      "notes": "Inbox app some users expect.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHWKN",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-windowsalarms",
+      "name": "Remove Windows Clock (Alarms & Clock)",
+      "category": "appx",
+      "tier": "aggressive",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.WindowsAlarms"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ3PR"
+      },
+      "notes": "Windows Clock: alarms, timers and focus sessions.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ3PR",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-windowscamera",
+      "name": "Remove Windows Camera",
+      "category": "appx",
+      "tier": "aggressive",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.WindowsCamera"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJBBG"
+      },
+      "notes": "Inbox camera app.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJBBG",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-applicationmanagement#removedefaultmicrosoftstorepackages",
+        "https://support.microsoft.com/en-us/servicing/os/windows/docs/2025/08/policy-based-removal-of-pre-installed-microsoft-store-apps",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-office-onenote",
+      "name": "Remove OneNote for Windows 10 (Legacy)",
+      "category": "appx",
+      "tier": "safe",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.Office.OneNote"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHVJL"
+      },
+      "notes": "OneNote for Windows 10 (legacy), not desktop OneNote.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHVJL",
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-wallet",
+      "name": "Remove Microsoft Pay (Wallet)",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "no",
+      "target": {
+        "packageName": "Microsoft.Wallet"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": null
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/application-management/remove-provisioned-apps-during-update",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-microsoftjournal",
+      "name": "Remove Microsoft Journal",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.MicrosoftJournal"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9N318R854RHH"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9N318R854RHH",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-whiteboard",
+      "name": "Remove Microsoft Whiteboard",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.Whiteboard"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9MSPC6MP8FM4"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9MSPC6MP8FM4",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-bingfinance",
+      "name": "Remove MSN Money",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.BingFinance"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHV4V"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHV4V",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-bingsports",
+      "name": "Remove MSN Sports",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.BingSports"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFHVH4"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFHVH4",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-crossdevice",
+      "name": "Remove Cross Device Experience Host (Mobile devices)",
+      "category": "appx",
+      "tier": "aggressive",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "MicrosoftWindows.CrossDevice"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NTXGKQ8P7N0"
+      },
+      "notes": "Cross-device experiences (phone as camera, mobile devices in Explorer).",
+      "sources": [
+        "https://apps.microsoft.com/detail/9NTXGKQ8P7N0",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json"
+      ]
+    },
+    {
+      "id": "appx-web-experience-pack",
+      "name": "Remove Windows Web Experience Pack (Widgets)",
+      "category": "widgets",
+      "tier": "aggressive",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "MicrosoftWindows.Client.WebExperience"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9MSSGKG348SP"
+      },
+      "notes": "Windows Web Experience Pack. Prefer widgets-policy-off. Sources disagree on risk (moderate vs aggressive); the stricter tier is used.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9MSSGKG348SP",
+        "https://github.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/blob/main/2009/ConfigurationFiles/AppxPackages.json",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://computingforgeeks.com/debloat-windows-11/"
+      ]
+    },
+    {
+      "id": "appx-startexperiencesapp",
+      "name": "Remove Start Experiences App",
+      "category": "widgets",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.StartExperiencesApp"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9PC1H9VN18CM"
+      },
+      "notes": "Provider of widget and feed content.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9PC1H9VN18CM",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/appx.json"
+      ]
+    },
+    {
+      "id": "appx-widgetsplatformruntime",
+      "name": "Remove Widgets Platform Runtime",
+      "category": "widgets",
+      "tier": "never-default",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Microsoft.WidgetsPlatformRuntime"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9N3RK8ZV2ZR8"
+      },
+      "notes": "Protected: framework package that other apps depend on.",
+      "sources": [
+        "https://apps.microsoft.com/detail/9N3RK8ZV2ZR8",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-m365companions",
+      "name": "Remove Microsoft 365 companion apps (People, Files, Calendar)",
+      "category": "appx",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "sometimes",
+      "target": {
+        "packageName": "Microsoft.M365Companions"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": null
+      },
+      "notes": "Microsoft 365 companion apps; reported to return.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/microsoft-365-apps/companions/overview",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-spotifyab-spotifymusic",
+      "name": "Remove Spotify",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "SpotifyAB.SpotifyMusic"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NCBCSZSJRSB"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NCBCSZSJRSB",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-king-com-candycrushsaga",
+      "name": "Remove Candy Crush Saga",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "king.com.CandyCrushSaga"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH18846"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH18846",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-king-com-candycrushsodasaga",
+      "name": "Remove Candy Crush Soda Saga",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "king.com.CandyCrushSodaSaga"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NBLGGH1ZRPV"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NBLGGH1ZRPV",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-king-com-bubblewitch3saga",
+      "name": "Remove Bubble Witch 3 Saga",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "king.com.BubbleWitch3Saga"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": null
+      },
+      "sources": [
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-disney-plus",
+      "name": "Remove Disney+",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Disney.37853FC22B2CE"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NXQXXLFST89"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NXQXXLFST89",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-bytedancepte-ltd-tiktok",
+      "name": "Remove TikTok",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22000,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "BytedancePte.Ltd.TikTok"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9NH2GPH4JZS4"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9NH2GPH4JZS4",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-facebook-facebook",
+      "name": "Remove Facebook",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "Facebook.Facebook"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ2WL"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ2WL",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-amazonvideo-primevideo",
+      "name": "Remove Prime Video for Windows",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "AmazonVideo.PrimeVideo"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9P6RC76MSMMJ"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9P6RC76MSMMJ",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-linkedin",
+      "name": "Remove LinkedIn",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "7EE7776C.LinkedInforWindows"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ4Q7"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ4Q7",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-netflix",
+      "name": "Remove Netflix",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "4DF9E0F8.Netflix"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ3TJ"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ3TJ",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-twitter",
+      "name": "Remove Twitter (X)",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "9E2F88E3.Twitter"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ140"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ140",
+        "https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/scripts/remove-default-apps.ps1"
+      ]
+    },
+    {
+      "id": "appx-hulullc-huluplus",
+      "name": "Remove Hulu",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "HuluLLC.HuluPlus"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ3L1"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ3L1",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "appx-adobesystemsincorporated-adobephotoshopexpress",
+      "name": "Remove Adobe Express Photos (formerly Photoshop Express)",
+      "category": "appx",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Microsoft publishes no per-build package list; presence is detected at run time."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "packageName": "AdobeSystemsIncorporated.AdobePhotoshopExpress"
+      },
+      "detect": {
+        "op": "appx-absent"
+      },
+      "remove": {
+        "op": "appx-remove"
+      },
+      "revert": {
+        "op": "appx-reinstall",
+        "storeId": "9WZDNCRFJ27N"
+      },
+      "sources": [
+        "https://apps.microsoft.com/detail/9WZDNCRFJ27N",
+        "https://github.com/Raphire/Win11Debloat/blob/master/Config/Apps.json"
+      ]
+    },
+    {
+      "id": "ai-copilot-legacy-policy-off",
+      "name": "Turn off Windows Copilot (legacy per-user policy)",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+        "name": "TurnOffWindowsCopilot"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Deprecated by Microsoft and has no effect on the current Copilot app; it still blocks the old Copilot pane and its upgrade path. Microsoft documents user scope only. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-windows-copilot"
+      ]
+    },
+    {
+      "id": "ai-copilot-edge-update-install-block",
+      "name": "Block Copilot app install through Microsoft Edge Update",
+      "category": "ai",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\EdgeUpdate",
+        "name": "Install{C50565E9-CCCF-44B4-BA15-5AC5C6569197}"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Needs Microsoft Edge Update 1.3.253.25 or later. Users can no longer install the Copilot app through Edge Update until reverted. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/copilot-update-policy-control",
+        "https://learn.microsoft.com/en-us/windows/client-management/deploy-unified-copilot-app"
+      ]
+    },
+    {
+      "id": "ai-recall-disallow",
+      "name": "Recall: disallow enablement",
+      "category": "ai",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 26100,
+        "maxBuild": null,
+        "note": "Microsoft states 10.0.26100.3915 (KB5055627) or later."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+        "name": "AllowRecallEnablement"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft: Recall's bits are removed from the device, saved snapshots are deleted and a restart is required. Only has an effect on Copilot+ PCs. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-recall"
+      ]
+    },
+    {
+      "id": "ai-recall-snapshots-off-device",
+      "name": "Recall: turn off saving snapshots (device)",
+      "category": "ai",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 26100,
+        "maxBuild": null,
+        "note": "Microsoft states 10.0.26100.3915 (KB5055627) or later."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+        "name": "DisableAIDataAnalysis"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Previously saved snapshots are deleted and revert does not bring them back. Only has an effect on Copilot+ PCs. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-recall",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-recall-snapshots-off-user",
+      "name": "Recall: turn off saving snapshots (user)",
+      "category": "ai",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 26100,
+        "maxBuild": null,
+        "note": "Microsoft states 10.0.26100.3915 (KB5055627) or later."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+        "name": "DisableAIDataAnalysis"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Previously saved snapshots are deleted and revert does not bring them back. Only has an effect on Copilot+ PCs. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-recall",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-recall-feature-off",
+      "name": "Recall: disable the Windows optional feature",
+      "category": "ai",
+      "tier": "moderate",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 26100,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "featureName": "Recall"
+      },
+      "detect": {
+        "op": "feature-disabled"
+      },
+      "remove": {
+        "op": "feature-disable"
+      },
+      "revert": {
+        "op": "feature-enable"
+      },
+      "notes": "Disables the optional feature without removing its payload, so it can be re-enabled. May need a restart. Only has an effect on Copilot+ PCs.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-recall",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/tweaks.json",
+        "https://christitus.com/microsoft-recall-situation/"
+      ]
+    },
+    {
+      "id": "ai-click-to-do-off-device",
+      "name": "Click to Do: disable (device)",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 26100,
+        "maxBuild": null,
+        "note": "No released minimum build stated by Microsoft."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+        "name": "DisableClickToDo"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft's pages disagree on availability (Policy CSP says Insider Preview only; the Manage Click to Do page documents it as current). Does not affect Click to Do inside Recall. Only has an effect on Copilot+ PCs. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-click-to-do-off-user",
+      "name": "Click to Do: disable (user)",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 26100,
+        "maxBuild": null,
+        "note": "No released minimum build stated by Microsoft."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKCU",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsAI",
+        "name": "DisableClickToDo"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft's pages disagree on availability (Policy CSP says Insider Preview only; the Manage Click to Do page documents it as current). Does not affect Click to Do inside Recall. Only has an effect on Copilot+ PCs. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-paint-image-creator-off",
+      "name": "Paint: disable Image Creator",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22621,
+        "maxBuild": null,
+        "note": "Microsoft states 10.0.22621.4870 or 10.0.26100.3360 and later."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+        "name": "DisableImageCreator"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-paint-cocreator-off",
+      "name": "Paint: disable Cocreator",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22621,
+        "maxBuild": null,
+        "note": "Microsoft states 10.0.22621.4870 or 10.0.26100.3360 and later."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+        "name": "DisableCocreator"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-paint-generative-fill-off",
+      "name": "Paint: disable generative fill",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22621,
+        "maxBuild": null,
+        "note": "Microsoft states 10.0.22621.4870 or 10.0.26100.3360 and later."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Paint",
+        "name": "DisableGenerativeFill"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-notepad-ai-off",
+      "name": "Notepad: disable AI features",
+      "category": "ai",
+      "tier": "safe",
+      "builds": {
+        "os": [
+          "win11"
+        ],
+        "minBuild": 22621,
+        "maxBuild": null
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\WindowsNotepad",
+        "name": "DisableAIFeatures"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Needs Notepad 11.2503.16.0 or later. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/windows/client-management/manage-notepad",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles",
+        "https://github.com/ChrisTitusTech/winutil/blob/main/config/tweaks.json"
+      ]
+    },
+    {
+      "id": "ai-edge-new-tab-copilot-off",
+      "name": "Edge: remove Copilot entry points from the new tab page",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "NewTabPageBingChatEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/newtabpagebingchatenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-edge-local-model-off",
+      "name": "Edge: do not download the local generative AI model",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "GenAILocalFoundationalModelSettings"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "An already downloaded model is deleted. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/genailocalfoundationalmodelsettings",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-edge-history-ai-search-off",
+      "name": "Edge: disable AI-enhanced history search",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "EdgeHistoryAISearchEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/edgehistoryaisearchenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge",
+        "https://github.com/Raphire/Win11Debloat/tree/master/Regfiles"
+      ]
+    },
+    {
+      "id": "ai-edge-ai-themes-off",
+      "name": "Edge: disable AI-generated themes",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "AIGenThemesEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/aigenthemesenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge"
+      ]
+    },
+    {
+      "id": "ai-edge-address-bar-copilot-off",
+      "name": "Edge: disable Copilot suggestions in the address bar",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "CopilotAddressBarSuggestionsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/copilotaddressbarsuggestionsenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge"
+      ]
+    },
+    {
+      "id": "ai-edge-copilot-new-tab-off",
+      "name": "Edge: keep the Copilot new tab page off",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "CopilotNewTabPageEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/copilotnewtabpageenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge"
+      ]
+    },
+    {
+      "id": "ai-edge-copilot-actions-off",
+      "name": "Edge: block Copilot from acting in the browser on the user's behalf",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "CopilotCoworkToolActionsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/copilotcoworktoolactionsenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge"
+      ]
+    },
+    {
+      "id": "ai-edge-builtin-ai-apis-off",
+      "name": "Edge: block built-in AI web APIs",
+      "category": "ai",
+      "tier": "moderate",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "BuiltInAIAPIsEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Web pages that use the built-in language model, summariser or writer APIs get an error. Microsoft documents registry-set Edge policies for managed devices; the effect on unmanaged PCs is not guaranteed. Policy value: Windows or Edge shows the setting as managed by your organization until reverted.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/builtinaiapisenabled",
+        "https://learn.microsoft.com/en-us/deployedge/configure-microsoft-edge"
+      ]
+    }
+  ]
+}

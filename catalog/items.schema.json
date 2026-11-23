@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Windows debloat catalog",
+  "type": "object",
+  "required": ["schemaVersion", "protected", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "testedBuilds": { "type": "array", "items": { "type": "integer" } },
+    "protected": {
+      "type": "object",
+      "description": "Identifiers the engine refuses to target unless the item is tier never-default and named with -Only.",
+      "required": ["appx", "services", "features"],
+      "additionalProperties": false,
+      "properties": {
+        "appx": { "type": "array", "items": { "type": "string" } },
+        "services": { "type": "array", "items": { "type": "string" } },
+        "features": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/item" } }
+  },
+  "definitions": {
+    "regType": { "enum": ["DWord", "QWord", "String", "ExpandString"] },
+    "regValue": { "type": ["integer", "string"] },
+    "item": {
+      "type": "object",
+      "required": ["id", "name", "category", "tier", "builds", "returnsAfterFeatureUpdate", "target", "detect", "remove", "revert", "sources"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "category": { "enum": ["appx", "ai", "widgets", "telemetry", "edge", "onedrive", "ads", "search"] },
+        "tier": { "enum": ["safe", "moderate", "aggressive", "never-default"] },
+        "tags": { "type": "array", "uniqueItems": true, "items": { "enum": ["gaming", "office", "onedrive", "edge"] } },
+        "builds": {
+          "type": "object",
+          "required": ["os", "minBuild", "maxBuild"],
+          "additionalProperties": false,
+          "properties": {
+            "os": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["win10", "win11"] } },
+            "minBuild": { "type": "integer" },
+            "maxBuild": { "type": ["integer", "null"] },
+            "note": { "type": "string" }
+          }
+        },
+        "returnsAfterFeatureUpdate": { "enum": ["yes", "no", "sometimes", "unknown"] },
+        "target": { "type": "object" },
+        "detect": { "type": "object", "required": ["op"] },
+        "remove": { "type": "object", "required": ["op"] },
+        "revert": { "type": "object", "required": ["op"] },
+        "notes": { "type": "string" },
+        "sources": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^https://" } }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "target": { "type": "object", "required": ["packageName"], "additionalProperties": false, "properties": { "packageName": { "type": "string", "minLength": 1 } } },
+            "detect": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "appx-absent" } } },
+            "remove": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "appx-remove" } } },
+            "revert": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "appx-reinstall" }, "storeId": { "type": ["string", "null"] } } }
+          }
+        },
+        {
+          "properties": {
+            "target": { "$ref": "#/definitions/regTarget" },
+            "detect": { "$ref": "#/definitions/regDetect" },
+            "remove": { "type": "object", "required": ["op", "valueType", "value"], "additionalProperties": false, "properties": { "op": { "const": "registry-set" }, "valueType": { "$ref": "#/definitions/regType" }, "value": { "$ref": "#/definitions/regValue" } } },
+            "revert": { "type": "object", "required": ["op"], "additionalProperties": false, "properties": { "op": { "const": "registry-restore" }, "default": { "$ref": "#/definitions/regDefault" } } }
+          }
+        },
+        {
+          "properties": {
+            "target": { "$ref": "#/definitions/regTarget" },
+            "detect": { "$ref": "#/definitions/regDetect" },
+            "remove": { "type": "object", "required": ["op", "valueType", "value"], "additionalProperties": false, "properties": { "op": { "const": "policy-set" }, "valueType": { "$ref": "#/definitions/regType" }, "value": { "$ref": "#/definitions/regValue" } } },
+            "revert": { "type": "object", "required": ["op"], "additionalProperties": false, "properties": { "op": { "const": "policy-restore" }, "default": { "$ref": "#/definitions/regDefault" } } }
+          }
+        },
+        {
+          "properties": {
+            "target": { "type": "object", "required": ["name"], "additionalProperties": false, "properties": { "name": { "type": "string", "minLength": 1 } } },
+            "detect": { "type": "object", "required": ["op", "startup"], "additionalProperties": false, "properties": { "op": { "const": "service-startup" }, "startup": { "const": "Disabled" } } },
+            "remove": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "service-disable" } } },
+            "revert": { "type": "object", "required": ["op", "defaultStartup"], "additionalProperties": false, "properties": { "op": { "const": "service-restore" }, "defaultStartup": { "enum": ["Automatic", "AutomaticDelayedStart", "Manual"] } } }
+          }
+        },
+        {
+          "properties": {
+            "target": { "type": "object", "required": ["taskPath", "taskName"], "additionalProperties": false, "properties": { "taskPath": { "type": "string", "pattern": "^\\\\(.*\\\\)?$" }, "taskName": { "type": "string", "minLength": 1 } } },
+            "detect": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "task-disabled" } } },
+            "remove": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "task-disable" } } },
+            "revert": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "task-enable" } } }
+          }
+        },
+        {
+          "properties": {
+            "target": { "type": "object", "required": ["featureName"], "additionalProperties": false, "properties": { "featureName": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" } } },
+            "detect": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "feature-disabled" } } },
+            "remove": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "feature-disable" } } },
+            "revert": { "type": "object", "additionalProperties": false, "properties": { "op": { "const": "feature-enable" } } }
+          }
+        }
+      ]
+    },
+    "regTarget": {
+      "type": "object",
+      "required": ["hive", "path", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "hive": { "enum": ["HKLM", "HKCU"] },
+        "path": { "type": "string", "pattern": "^(?!\\\\)(?!HK).+" },
+        "name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "regDetect": {
+      "type": "object",
+      "required": ["op", "valueType", "value"],
+      "additionalProperties": false,
+      "properties": { "op": { "const": "registry-equals" }, "valueType": { "$ref": "#/definitions/regType" }, "value": { "$ref": "#/definitions/regValue" } }
+    },
+    "regDefault": {
+      "oneOf": [
+        { "type": "object", "required": ["absent"], "additionalProperties": false, "properties": { "absent": { "const": true } } },
+        { "type": "object", "required": ["valueType", "value"], "additionalProperties": false, "properties": { "valueType": { "$ref": "#/definitions/regType" }, "value": { "$ref": "#/definitions/regValue" } } }
+      ]
+    }
+  }
+}

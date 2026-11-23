@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "testedBuilds": [19045, 22631, 26100, 26200],
+  "protected": {
+    "appx": ["Fixture.Protected.*"],
+    "services": ["FixtureProtectedSvc"],
+    "features": []
+  },
+  "items": [
+    {
+      "id": "fx-reg-safe",
+      "name": "Fixture registry value (safe)",
+      "category": "ads",
+      "tier": "safe",
+      "builds": { "os": ["win10", "win11"], "minBuild": 10240, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "no",
+      "target": { "hive": "HKCU", "path": "Software\\WinDebloatKitTest\\Fixture", "name": "SafeValue" },
+      "detect": { "op": "registry-equals", "valueType": "DWord", "value": 0 },
+      "remove": { "op": "registry-set", "valueType": "DWord", "value": 0 },
+      "revert": { "op": "registry-restore", "default": { "absent": true } },
+      "sources": ["https://example.com/fixture"]
+    },
+    {
+      "id": "fx-appx-safe",
+      "name": "Fixture Appx package that is never installed",
+      "category": "appx",
+      "tier": "safe",
+      "builds": { "os": ["win10", "win11"], "minBuild": 10240, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": { "packageName": "Fixture.DoesNotExist.App" },
+      "detect": { "op": "appx-absent" },
+      "remove": { "op": "appx-remove" },
+      "revert": { "op": "appx-reinstall", "storeId": null },
+      "sources": ["https://example.com/fixture"]
+    },
+    {
+      "id": "fx-gaming-safe",
+      "name": "Fixture item tagged gaming",
+      "category": "appx",
+      "tier": "safe",
+      "tags": ["gaming"],
+      "builds": { "os": ["win10", "win11"], "minBuild": 10240, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": { "packageName": "Fixture.DoesNotExist.Game" },
+      "detect": { "op": "appx-absent" },
+      "remove": { "op": "appx-remove" },
+      "revert": { "op": "appx-reinstall", "storeId": null },
+      "sources": ["https://example.com/fixture"]
+    },
+    {
+      "id": "fx-service-moderate",
+      "name": "Fixture service that does not exist",
+      "category": "telemetry",
+      "tier": "moderate",
+      "builds": { "os": ["win10", "win11"], "minBuild": 10240, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": { "name": "FixtureNoSuchService" },
+      "detect": { "op": "service-startup", "startup": "Disabled" },
+      "remove": { "op": "service-disable" },
+      "revert": { "op": "service-restore", "defaultStartup": "Manual" },
+      "sources": ["https://example.com/fixture"]
+    },
+    {
+      "id": "fx-task-aggressive",
+      "name": "Fixture scheduled task that does not exist",
+      "category": "telemetry",
+      "tier": "aggressive",
+      "builds": { "os": ["win10", "win11"], "minBuild": 10240, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": { "taskPath": "\\FixtureNoSuchFolder\\", "taskName": "FixtureNoSuchTask" },
+      "detect": { "op": "task-disabled" },
+      "remove": { "op": "task-disable" },
+      "revert": { "op": "task-enable" },
+      "sources": ["https://example.com/fixture"]
+    },
+    {
+      "id": "fx-future-build",
+      "name": "Fixture item for a build that does not exist yet",
+      "category": "ai",
+      "tier": "safe",
+      "builds": { "os": ["win11"], "minBuild": 999999, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": { "hive": "HKCU", "path": "SOFTWARE\\Policies\\WinDebloatKitTest", "name": "FutureValue" },
+      "detect": { "op": "registry-equals", "valueType": "DWord", "value": 1 },
+      "remove": { "op": "policy-set", "valueType": "DWord", "value": 1 },
+      "revert": { "op": "policy-restore", "default": { "absent": true } },
+      "sources": ["https://example.com/fixture"]
+    },
+    {
+      "id": "fx-never-default",
+      "name": "Fixture never-default item",
+      "category": "telemetry",
+      "tier": "never-default",
+      "builds": { "os": ["win10", "win11"], "minBuild": 10240, "maxBuild": null },
+      "returnsAfterFeatureUpdate": "no",
+      "target": { "name": "FixtureProtectedSvc" },
+      "detect": { "op": "service-startup", "startup": "Disabled" },
+      "remove": { "op": "service-disable" },
+      "revert": { "op": "service-restore", "defaultStartup": "Automatic" },
+      "sources": ["https://example.com/fixture"]
+    }
+  ]
+}
