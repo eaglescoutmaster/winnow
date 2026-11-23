@@ -74,3 +74,10 @@ This is a working summary, not legal advice.
 - Win-Debloat-Tools bundles O&O ShutUp10++ and AdwCleaner under their own licenses. An MIT label on a repo does not cover everything inside it.
 - Registry paths, policy names, package names and service names are facts about Windows. Our catalog should be built from Microsoft documentation and our own testing, with each entry citing its source, so no entry depends on another project's selection or wording.
 - Two GitHub license fields read `NOASSERTION` (Debloat-Windows-10, Winhance). The SPDX ids above come from reading the LICENSE files.
+
+## Linux and macOS
+
+Tools studied for the Linux and macOS catalogs, with licences, revert support and known breakage,
+are credited in section 7 of [linux/findings.md](linux/findings.md) and
+[macos/findings.md](macos/findings.md), and summarised in
+[05-linux-macos-synthesis.md](05-linux-macos-synthesis.md). No code was copied from any of them.

@@ -1,7 +1,11 @@
 # Agent operating rules
 
-You are debloating a real Windows machine for its owner. A wrong removal can break Start, the
-Store, Windows Update or sign-in. This file is the contract. Follow it exactly.
+You are debloating a real machine for its owner. A wrong removal can break the desktop, the
+app store, system updates or sign-in. This file is the contract. Follow it exactly.
+
+Check the operating system first. On Windows, everything below applies as written. On Linux
+or macOS, the hard rules still apply (read `-Apply` as `apply`, `-Only` as `--only`), but the
+commands, workflow details and failure handling are in "Linux and macOS" near the end.
 
 ## Hard rules
 
@@ -104,8 +108,59 @@ Windows build), `skip:blocked` (system package, engine refuses), `skip:unplanned
 - Tasks and services are disabled, never deleted. Registry values are restored to their logged
   prior value. No CBS/DISM package removal, no file deletion, no persistent "re-apply" tasks.
 
+## Linux and macOS
+
+One script, `scripts/winnow.py` (Python 3.8+, standard library only), driven by
+`catalog/linux.json` or `catalog/macos.json`. Run it from the repo root as the normal user.
+**Never** prefix it with `sudo`: it runs the individual commands that need root through
+`sudo -n` itself, and user-level settings must be changed for the user, not for root.
+
+| Purpose | Command | Changes system |
+|---|---|---|
+| Machine state | `python3 scripts/winnow.py state` (or `state --json`) | no |
+| Plan (dry run) | `python3 scripts/winnow.py plan --profile <safe\|moderate\|aggressive> [--exclude <tags>] [--only <ids>]` | no (writes `logs/plan-*.json`) |
+| Apply approved plan | `python3 scripts/winnow.py apply --plan <PLAN_FILE>` | **yes** |
+| Revert plan (dry run) | `python3 scripts/winnow.py revert <LOG_FILE>` | no |
+| Revert | `python3 scripts/winnow.py revert <LOG_FILE> --apply` | **yes** |
+
+- `--exclude` tags are listed in the catalog's top-level `tags` array; an unknown tag exits 4
+  and prints the allowed ones.
+- No other command may change the system: no `apt`, `dnf`, `snap`, `flatpak`, `systemctl`,
+  `gsettings`, `defaults`, `launchctl`, `rm`, `mv`, and no `sudo` of your own.
+- Never pass `--no-snapshot` unless the user said yes to that specific question after you
+  explained it: without a filesystem snapshot, the run log is the only way back.
+- The workflow is the same six steps as on Windows: state, ask profile and exclusions, plan,
+  wait for approval in words, apply that plan file, state again and report. Use
+  `returnsAfterUpgrade` where the Windows text says `returnsAfterFeatureUpdate`.
+- Output lines and exit codes are the same as on Windows, with `SNAPSHOT=...` and
+  `SETTINGS_BACKUP=...` in place of `RESTORE_POINT=` and `REGISTRY_BACKUP=`.
+- `skip:blocked` on a package means removing it would also remove other packages; the engine
+  refuses. Do not remove it another way.
+
+When things fail on Linux or macOS:
+
+- `needs sudo and no cached sudo credentials`: you cannot type the user's password. Ask the
+  user to run `sudo -v` in the same terminal (in Claude Code: `! sudo -v`), or to run the
+  apply command themselves, then continue.
+- `no filesystem snapshot could be made`: Timeshift or Snapper (Linux) or Time Machine local
+  snapshots (macOS) are not available. Explain, and ask whether to set one up or to accept
+  `--no-snapshot`. Do not decide this yourself.
+- `do not run winnow with sudo or as root`: re-run without `sudo`.
+- `enrolled in device management (MDM)`: stop. The Mac belongs to someone's IT.
+- `this catalog is for ... but this machine is ...`: you passed the wrong `--catalog`; drop it.
+- `PLAN_STALE`: make a new plan and get it approved again.
+- Revert reports `manual-action-required` for an app that is no longer in the Trash; give the
+  user the App Store link it prints.
+
+Guarantees on Linux and macOS: dry run unless `apply`; a copy of every config file and an
+export of every preference domain it will touch, taken before the first change; each change
+logged with its prior state; packages are removed, never purged (configuration stays); units
+and launch services are disabled, never deleted; apps are moved to the Trash, never deleted;
+nothing under `/System` is touched.
+
 ## Repo map
 
-- `catalog/items.json`: the only list of what can be changed. `catalog/items.schema.json`: its schema.
-- `scripts/`: the engine. `tests/`: Pester 5 tests. `logs/`: plans, run logs, registry exports (gitignored).
+- `catalog/items.json` (Windows), `catalog/linux.json`, `catalog/macos.json`: the only lists of
+  what can be changed. `catalog/items.schema.json`, `catalog/unix.schema.json`: their schemas.
+- `scripts/`: the engines. `tests/`: Pester 5 and Python unittest. `logs/`: plans, run logs, backups (gitignored).
 - `research/`: sources and reasoning behind each tier.
