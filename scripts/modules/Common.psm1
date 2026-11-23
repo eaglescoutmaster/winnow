@@ -44,8 +44,31 @@ function Get-MachineInfo {
     if ($build -ge 22000) { $os = 'win11' }
     $domainJoined = $false
     try { $domainJoined = [bool](Get-CimInstance -ClassName Win32_ComputerSystem -ErrorAction Stop).PartOfDomain } catch { }
+    # Entra (Azure AD) join, read from dsregcmd.
+    $entraJoined = $false
+    try {
+        $ds = Invoke-Native -FilePath "$env:SystemRoot\System32\dsregcmd.exe" -ArgumentList @('/status')
+        $entraJoined = ($ds.Output -match '(?m)^\s*AzureAdJoined\s*:\s*YES')
+    }
+    catch { }
+    # MDM enrollment: an enrollment key that points at a management server. Every Windows install
+    # has built-in enrollment entries (Local/Cloud/Deploy Authority) without a discovery URL.
+    $mdmEnrolled = $false
+    try {
+        foreach ($k in @(Get-ChildItem -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Enrollments' -ErrorAction Stop)) {
+            if (Get-Prop (Get-ItemProperty -LiteralPath $k.PSPath -ErrorAction SilentlyContinue) 'DiscoveryServiceFullURL') { $mdmEnrolled = $true }
+        }
+    }
+    catch { }
+    # Pending restart from servicing or Windows Update.
+    $pendingReboot = (Test-Path -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending') -or
+        (Test-Path -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired')
     return [pscustomobject][ordered]@{
         domainJoined   = $domainJoined
+        entraJoined    = [bool]$entraJoined
+        mdmEnrolled    = $mdmEnrolled
+        managed        = [bool]($domainJoined -or $entraJoined -or $mdmEnrolled)
+        pendingReboot  = [bool]$pendingReboot
         computerName   = $env:COMPUTERNAME
         os             = $os
         build          = $build

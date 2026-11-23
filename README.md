@@ -70,7 +70,8 @@ Never does:
   the Store, WebView2, .NET, app frameworks, Windows Hello or BitLocker.
 - Remove system-signed, non-removable or framework packages, whatever the catalog says.
 - Install a scheduled task to re-apply itself. After a feature update, run it again.
-- Change a domain-joined machine.
+- Change a machine managed by an organisation (domain-joined, Entra-joined or MDM-enrolled), or
+  one with a restart pending.
 
 ## Safety model
 
@@ -103,8 +104,19 @@ logs/                             plans, run logs, registry exports (gitignored)
 Invoke-Pester -Path tests      # Pester 5
 ```
 
-Tests never pass `-Apply` from an elevated session. The registry round-trip test writes only
-under `HKCU\Software\WinDebloatKitTest` and removes it.
+On your machine, tests never pass `-Apply` from an elevated session. The registry round-trip
+test writes only under `HKCU\Software\WinDebloatKitTest` and removes it. `tests\Elevated.Tests.ps1`
+(real service and task disable/revert on throwaway objects, plus an elevated `-Apply` of a
+fixture item) runs only when elevated with `WINNOW_ELEVATED_TESTS=1`; CI sets that on a
+disposable runner.
+
+## Editing the catalog
+
+`catalog/items.json` is the source of truth and is edited by hand. Rules: every item needs an
+`https://` source, an exact identifier, a tier, and one of the six operations. Run the tests;
+they check the schema, uniqueness, that no profile reaches a protected identifier, and that no
+identifier is hardcoded in `scripts/`. `.claude/settings.json` is a permission allowlist for
+Claude Code that asks before any `-Apply`.
 
 ## Credits
 

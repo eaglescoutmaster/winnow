@@ -89,7 +89,8 @@ Windows build), `skip:blocked` (system package, engine refuses), `skip:unplanned
   re-run with `-EnableSystemRestore`. Do not skip the backup.
 - `build ... is untested`: tell the user the risk (identifiers may differ on that build), then
   ask about `-AllowUntestedBuild`.
-- `domain-joined`: stop. The machine belongs to an organisation's IT.
+- `managed by an organisation` (domain, Entra or MDM): stop. The machine belongs to someone's IT.
+- `a restart is pending`: ask the user to restart Windows, then start again from the dry run.
 - `PLAN_STALE`: make a new dry run and get it approved again.
 - Something broke after a run: offer the revert command for that run's `LOG_FILE`. Reinstalling
   removed Store apps may need the Microsoft Store; the revert output says which ones.

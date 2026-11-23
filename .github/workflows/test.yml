@@ -1,0 +1,37 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    env:
+      WINNOW_ELEVATED_TESTS: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pester on Windows PowerShell 5.1 (engine, dry run, elevated primitives)
+        shell: powershell
+        run: |
+          Import-Module Pester -MinimumVersion 5.0 -ErrorAction Stop
+          $c = New-PesterConfiguration
+          $c.Run.Path = 'tests'
+          $c.Run.Exit = $true
+          $c.Output.Verbosity = 'Detailed'
+          Invoke-Pester -Configuration $c
+
+      - name: Catalog schema on PowerShell 7 (Test-Json)
+        shell: pwsh
+        run: |
+          Import-Module Pester -MinimumVersion 5.0 -ErrorAction Stop
+          $c = New-PesterConfiguration
+          $c.Run.Path = 'tests/Catalog.Tests.ps1'
+          $c.Run.Exit = $true
+          $c.Output.Verbosity = 'Detailed'
+          Invoke-Pester -Configuration $c

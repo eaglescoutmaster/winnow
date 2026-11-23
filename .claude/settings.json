@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "deny": [
+      "PowerShell(Remove-AppxPackage *)",
+      "PowerShell(Remove-AppxProvisionedPackage *)",
+      "PowerShell(Disable-WindowsOptionalFeature *)",
+      "PowerShell(Unregister-ScheduledTask *)",
+      "PowerShell(dism *)",
+      "PowerShell(dism.exe *)",
+      "Bash(dism *)",
+      "Bash(dism.exe *)"
+    ],
+    "ask": [
+      "PowerShell(powershell.exe * -Apply*)",
+      "Bash(powershell.exe * -Apply*)",
+      "Bash(sudo *)"
+    ],
+    "allow": [
+      "PowerShell(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\Test-State.ps1*)",
+      "PowerShell(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\Invoke-Debloat.ps1*)",
+      "Bash(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\\\Test-State.ps1*)",
+      "Bash(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\\\Invoke-Debloat.ps1*)"
+    ]
+  }
+}

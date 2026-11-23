@@ -207,11 +207,13 @@ try {
     if ($untested) {
         Write-Output "WARNING: build $($machine.build) is not in the catalog's testedBuilds ($($tested -join ', ')). Identifiers may differ on this build."
     }
-    if ($machine.domainJoined) { Write-Output 'WARNING: this machine is domain-joined. Its policies belong to an administrator.' }
+    if ($machine.managed) { Write-Output "WARNING: this machine is managed by an organisation (domain=$($machine.domainJoined) entra=$($machine.entraJoined) mdm=$($machine.mdmEnrolled)). Its policies belong to an administrator." }
+    if ($machine.pendingReboot) { Write-Output 'WARNING: a restart is pending (servicing or Windows Update). Restart before applying.' }
 
     if ($Apply) {
         if ($PSVersionTable.PSEdition -eq 'Core') { Stop-Run 2 'PRECONDITION: -Apply needs Windows PowerShell 5.1 (powershell.exe).' }
-        if ($machine.domainJoined) { Stop-Run 2 'PRECONDITION: refusing to change a domain-joined machine.' }
+        if ($machine.managed) { Stop-Run 2 'PRECONDITION: refusing to change a machine managed by an organisation (domain, Entra or MDM).' }
+        if ($machine.pendingReboot) { Stop-Run 2 'PRECONDITION: a restart is pending. Restart Windows, then make a new dry run.' }
         if ($untested -and -not $AllowUntestedBuild) { Stop-Run 2 "PRECONDITION: build $($machine.build) is untested. Re-run with -AllowUntestedBuild only if the user accepts that risk." }
         if (-not $machine.isAdmin) {
             if ($Elevate) { Invoke-ElevatedSelf -RevertPath $revertPath }

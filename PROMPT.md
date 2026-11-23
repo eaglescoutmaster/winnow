@@ -18,7 +18,9 @@ Rules for this whole session:
 - If a script exits with a non-zero code, stop and show me the output.
 
 Steps:
-1. Clone the repository into a new folder with git, cd into it, and read AGENTS.md completely.
+1. Clone the repository into a new folder with
+   git clone --branch v0.1.0 --depth 1 https://github.com/eaglescoutmaster/winnow
+   then cd into it and read AGENTS.md completely.
    Tell me in two sentences what you are and are not allowed to do.
 2. Run scripts\Test-State.ps1 and summarise this machine: Windows version and build, how many
    catalog items are still present in each tier, which AI features are present, and any
