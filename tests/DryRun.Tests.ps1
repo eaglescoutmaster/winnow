@@ -15,6 +15,8 @@ BeforeAll {
         $a = @('-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', $Script) + $ArgList
         if ($Script -eq $script:entry) { $a += @('-LogDir', $script:logDir) }
         if (-not $RealCatalog) { $a += @('-CatalogPath', $script:fixture) }
+        # A child that writes to stderr must not become a terminating error in the test host.
+        $ErrorActionPreference = 'Continue'
         $out = & powershell.exe @a 2>&1 | ForEach-Object { "$_" }
         [pscustomobject]@{ Code = $LASTEXITCODE; Out = @($out); Text = ($out -join "`n") }
     }
