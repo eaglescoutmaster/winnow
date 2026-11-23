@@ -1,0 +1,814 @@
+{
+  "$schema": "./unix.schema.json",
+  "schemaVersion": 1,
+  "platform": "macos",
+  "testedOn": [],
+  "categories": [
+    "apps",
+    "ai",
+    "telemetry",
+    "clutter",
+    "services"
+  ],
+  "tags": [
+    "iwork",
+    "media",
+    "siri",
+    "icloud"
+  ],
+  "protected": {
+    "labels": [
+      "com.apple.sharingd",
+      "com.apple.chronod",
+      "com.apple.imagent",
+      "com.apple.quicklook*",
+      "com.apple.remindd",
+      "com.apple.siriactionsd",
+      "com.apple.telephonyutilities.callservicesd",
+      "com.apple.TMHelperAgent",
+      "com.apple.rapportd*",
+      "com.apple.cloudd",
+      "com.apple.cloudphotod",
+      "com.apple.CloudSettingsSyncAgent",
+      "com.apple.security.cloudkeychainproxy3",
+      "com.apple.protectedcloudstorage.*",
+      "com.apple.ManagedClientAgent.*",
+      "com.apple.ScreenTimeAgent",
+      "com.apple.familycircled",
+      "com.apple.universalaccessd",
+      "com.apple.accessibility.*",
+      "com.apple.voicebankingd",
+      "com.apple.findmy*",
+      "com.apple.dhcp6d",
+      "com.apple.modelmanagerd",
+      "com.apple.locationd",
+      "com.apple.icloud.*",
+      "com.apple.backupd*",
+      "com.apple.biometrickitd",
+      "com.apple.familycontrols",
+      "com.apple.softwareupdate*",
+      "com.apple.mobile.softwareupdated",
+      "com.apple.XProtect*",
+      "com.apple.MRT*",
+      "com.apple.syspolicyd",
+      "com.apple.tccd",
+      "com.apple.securityd",
+      "com.apple.trustd",
+      "com.apple.mdmclient*"
+    ],
+    "domains": [
+      "com.apple.applicationaccess",
+      "com.apple.SetupAssistant.managed",
+      "com.apple.SoftwareUpdate",
+      "com.apple.commerce",
+      "com.apple.CloudSubscriptionFeatures.optIn",
+      "com.apple.security*",
+      "com.apple.TCC*",
+      "com.apple.LaunchServices*"
+    ],
+    "paths": [
+      "/System/*",
+      "/Applications/Safari.app",
+      "/Applications/Utilities/*"
+    ]
+  },
+  "items": [
+    {
+      "id": "app-garageband",
+      "name": "GarageBand",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "media"
+      ],
+      "op": "app-trash",
+      "target": {
+        "path": "/Applications/GarageBand.app",
+        "bundleId": "com.apple.garageband10",
+        "masId": "682658836"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Bundle id and App Store id read from the iTunes lookup API on 2026-11-23 (v10.4.15, minimumOsVersion 15.6, so a reinstall on macOS 14 depends on the App Store offering a last-compatible version). Apple lists it as optional ('If GarageBand isn't installed on your Mac, you can get it from the App Store'). The /Applications path is the conventional location and was not read on a source page: resolve by bundle id before acting. Sound library content outside the bundle is not removed.",
+      "sources": [
+        "https://itunes.apple.com/lookup?id=682658836&country=us&entity=macSoftware",
+        "https://support.apple.com/guide/mac-help/apps-included-on-your-mac-mchl110b00b7/mac",
+        "https://support.apple.com/en-us/102610"
+      ]
+    },
+    {
+      "id": "app-imovie",
+      "name": "iMovie",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "media"
+      ],
+      "op": "app-trash",
+      "target": {
+        "path": "/Applications/iMovie.app",
+        "bundleId": "com.apple.iMovieApp",
+        "masId": "408981434"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Bundle id and App Store id read from the iTunes lookup API on 2026-11-23 (v10.4.6, minimumOsVersion 26.6: the current store build does not install on macOS 14/15, so revert on those systems should be move-back from Trash, not reinstall). Apple lists it as optional. Path is conventional, not read on a source page: resolve by bundle id.",
+      "sources": [
+        "https://itunes.apple.com/lookup?id=408981434&country=us&entity=macSoftware",
+        "https://support.apple.com/guide/mac-help/apps-included-on-your-mac-mchl110b00b7/mac",
+        "https://support.apple.com/en-us/102610"
+      ]
+    },
+    {
+      "id": "app-keynote",
+      "name": "Keynote",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "iwork"
+      ],
+      "op": "app-trash",
+      "target": {
+        "path": "/Applications/Keynote.app",
+        "bundleId": "com.apple.Keynote",
+        "masId": "361285480"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Current App Store listing is id 361285480 ('Keynote: Design Presentations', v16.0, minimumOsVersion 26.0). The older Mac-only id 409183694 returned no result from the lookup API and HTTP 404 on apps.apple.com on 2026-11-23, so reinstall by the old id fails and reinstall on macOS 14/15 is not guaranteed: prefer move-back from Trash. Path is conventional: resolve by bundle id.",
+      "sources": [
+        "https://itunes.apple.com/lookup?id=361285480&country=us&entity=macSoftware",
+        "https://itunes.apple.com/lookup?id=409183694&country=us&entity=macSoftware",
+        "https://support.apple.com/guide/mac-help/apps-included-on-your-mac-mchl110b00b7/mac"
+      ]
+    },
+    {
+      "id": "app-numbers",
+      "name": "Numbers",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "iwork"
+      ],
+      "op": "app-trash",
+      "target": {
+        "path": "/Applications/Numbers.app",
+        "bundleId": "com.apple.Numbers",
+        "masId": "361304891"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Current App Store listing is id 361304891 ('Numbers: Make Spreadsheets', v16.0, minimumOsVersion 26.0). The older Mac-only id 409203825 returned no result from the lookup API on 2026-11-23. Reinstall on macOS 14/15 is not guaranteed: prefer move-back from Trash. Path is conventional: resolve by bundle id.",
+      "sources": [
+        "https://itunes.apple.com/lookup?id=682658836,408981434,409183694,409203825,409201541&country=us&entity=macSoftware",
+        "https://itunes.apple.com/lookup?id=409203825&country=us&entity=macSoftware",
+        "https://support.apple.com/guide/mac-help/apps-included-on-your-mac-mchl110b00b7/mac"
+      ]
+    },
+    {
+      "id": "app-pages",
+      "name": "Pages",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "iwork"
+      ],
+      "op": "app-trash",
+      "target": {
+        "path": "/Applications/Pages.app",
+        "bundleId": "com.apple.Pages",
+        "masId": "361309726"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Current App Store listing is id 361309726 ('Pages: Create Documents', v16.0, minimumOsVersion 26.0). The older Mac-only id 409201541 returned no result from the lookup API on 2026-11-23. Reinstall on macOS 14/15 is not guaranteed: prefer move-back from Trash. Path is conventional: resolve by bundle id.",
+      "sources": [
+        "https://itunes.apple.com/lookup?id=682658836,408981434,409183694,409203825,409201541&country=us&entity=macSoftware",
+        "https://itunes.apple.com/lookup?id=409201541&country=us&entity=macSoftware",
+        "https://support.apple.com/guide/mac-help/apps-included-on-your-mac-mchl110b00b7/mac"
+      ]
+    },
+    {
+      "id": "siri-menu-bar-icon-hide",
+      "name": "Hide Siri menu bar icon",
+      "category": "ai",
+      "tier": "safe",
+      "tags": [
+        "siri"
+      ],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.Siri",
+        "key": "StatusMenuVisible",
+        "restart": [
+          "SystemUIServer"
+        ]
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Cosmetic. Used by privacy.sexy and by kdeldycke/dotfiles (maintained through 2026-11, which notes Siri keeps its menu bar icon in its own domain). Exact tested macOS build not stated by either source.",
+      "sources": [
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "siri-disable",
+      "name": "Turn off Siri (Assistant Enabled)",
+      "category": "ai",
+      "tier": "moderate",
+      "tags": [
+        "siri"
+      ],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.assistant.support",
+        "key": "Assistant Enabled"
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "sometimes",
+      "notes": "Key is used by privacy.sexy (source: a 2016 macOS Sierra write-up) and by kdeldycke/dotfiles (maintained through 2026-11), whose comment states that only the allowAssistant configuration-profile key can prevent re-enablement. Not a lock: the user or a post-update Setup Assistant screen can turn Siri back on. On macOS 27 Apple's documented route is System Settings > Siri > Turn Off Siri. No source states the exact macOS build this user-level write was tested on.",
+      "sources": [
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://support.apple.com/guide/mac-help/mchlb2e44f94/mac"
+      ]
+    },
+    {
+      "id": "ad-identifier-off",
+      "name": "Turn off advertising identifier",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.AdLib",
+        "key": "allowIdentifierForAdvertising"
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Single source: privacy.sexy, which says there is no official documentation for the key, that its default is true, and that disabling it also switched the Personalized Ads toggle off in its tests from Monterey onward. The companion key forceLimitAdTracking is left out because Apple documents it for iOS only and it does not exist on macOS by default.",
+      "sources": [
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml"
+      ]
+    },
+    {
+      "id": "improve-assistive-voice-off",
+      "name": "Opt out of Improve Assistive Voice Features",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [
+        "siri"
+      ],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.Accessibility",
+        "key": "AXSAudioDonationSiriImprovementEnabled"
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "15.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Domain and key match the mSCP rule system_settings_improve_assistive_voice_disable, present in the sequoia and tahoe branches and absent in sonoma. mSCP enforces by profile; the user-level write is used by kdeldycke/dotfiles.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_improve_assistive_voice_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "improve-search-off",
+      "name": "Opt out of Help Apple Improve Search",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [
+        "siri"
+      ],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.assistant.support",
+        "key": "Search Queries Data Sharing Status"
+      },
+      "valueType": "int",
+      "value": 2,
+      "applies": {
+        "minVersion": "15.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Domain, key and value 2 match the mSCP rule system_settings_improve_search_disable, present in the sequoia and tahoe branches and absent (HTTP 404) in the sonoma branch, hence minVersion 15.0. mSCP enforces by profile; the user-level write is used by kdeldycke/dotfiles.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_improve_search_disable.yaml",
+        "https://github.com/usnistgov/macos_security/blob/sequoia/rules/system_settings/system_settings_improve_search_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "improve-siri-dictation-off",
+      "name": "Opt out of Improve Siri & Dictation",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [
+        "siri"
+      ],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.assistant.support",
+        "key": "Siri Data Sharing Opt-In Status"
+      },
+      "valueType": "int",
+      "value": 2,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Domain, key and value 2 match the mSCP rule system_settings_improve_siri_dictation_disable in the sonoma, sequoia and tahoe branches (mSCP enforces it by configuration profile and checks it through NSUserDefaults). User-level write is used by privacy.sexy (revert = delete key) and kdeldycke/dotfiles. Apple names the toggle 'Improve Siri & Apple Intelligence or Improve Siri & Dictation' under Privacy & Security > Analytics & Improvements.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_improve_siri_dictation_disable.yaml",
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://support.apple.com/en-us/127070"
+      ]
+    },
+    {
+      "id": "personalized-ads-off",
+      "name": "Turn off Apple personalized ads",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.AdLib",
+        "key": "allowApplePersonalizedAdvertising"
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "privacy.sexy states its own tests showed the Personalized Ads toggle switching off in the GUI from macOS Monterey onward, and that the default value is true. Also used by kdeldycke/dotfiles. The MDM equivalent lives in a different domain (com.apple.applicationaccess allowApplePersonalizedAdvertising, macOS 12+). Not verified by a read source on 14 or later specifically.",
+      "sources": [
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://developer.apple.com/documentation/devicemanagement/restrictions"
+      ]
+    },
+    {
+      "id": "share-mac-analytics-off",
+      "name": "Turn off Share Mac Analytics",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory",
+        "key": "AutoSubmit",
+        "sudo": true
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Domain is a file path (plist without the extension) and needs root. kdeldycke/dotfiles (maintained through 2026-11) identifies this plist as the one behind Privacy & Security > Analytics & Improvements. mSCP uses a different, profile-only route (com.apple.SubmitDiagInfo AutoSubmit plus com.apple.applicationaccess allowDiagnosticSubmission). The defaults documentation read warns that path-based operation is slated to change in a future major release. Exact tested build not stated.",
+      "sources": [
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_diagnostics_reports_disable.yaml",
+        "https://support.apple.com/guide/mac-help/mh27990/mac",
+        "https://ss64.com/mac/defaults.html"
+      ]
+    },
+    {
+      "id": "share-with-app-developers-off",
+      "name": "Turn off Share with app developers",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory",
+        "key": "ThirdPartyDataSubmit",
+        "sudo": true
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Same plist and caveats as share-mac-analytics-off. Used by kdeldycke/dotfiles to stop sharing crash data with app developers. Apple names the toggle 'Share with app developers'.",
+      "sources": [
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://support.apple.com/guide/mac-help/mh27990/mac"
+      ]
+    },
+    {
+      "id": "crash-reporter-dialog-none",
+      "name": "Suppress crash reporter dialog",
+      "category": "telemetry",
+      "tier": "moderate",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.CrashReporter",
+        "key": "DialogType"
+      },
+      "valueType": "string",
+      "value": "none",
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Hides the 'quit unexpectedly' dialog, so the user gets no prompt when an app crashes. Listed by drduh's guide and kdeldycke/dotfiles; mathiasbynens/dotfiles ships it commented out. No tested macOS version stated by any of them.",
+      "sources": [
+        "https://github.com/drduh/macOS-Security-and-Privacy-Guide",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://github.com/mathiasbynens/dotfiles/blob/main/.macos"
+      ]
+    },
+    {
+      "id": "appstore-in-app-ratings-off",
+      "name": "App Store: turn off in-app ratings and reviews prompts",
+      "category": "clutter",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.AppStore",
+        "key": "InAppReviewEnabled"
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Single read source: philiprein/macos-settings (last pushed 2023-11), which says the default is on and that a reboot is needed. Not verified on macOS 15 or later.",
+      "sources": [
+        "https://github.com/philiprein/macos-settings/blob/main/app_settings/app_store.sh"
+      ]
+    },
+    {
+      "id": "appstore-video-autoplay-off",
+      "name": "App Store: turn off video autoplay",
+      "category": "clutter",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.AppStore",
+        "key": "AutoPlayVideoSetting"
+      },
+      "valueType": "string",
+      "value": "off",
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Must be applied together with appstore-video-autoplay-user-set. Used by kdeldycke/dotfiles (2026-11) and philiprein/macos-settings (2023-11). No tested build stated.",
+      "sources": [
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://github.com/philiprein/macos-settings/blob/main/app_settings/app_store.sh"
+      ]
+    },
+    {
+      "id": "appstore-video-autoplay-user-set",
+      "name": "App Store: mark video autoplay as user-set",
+      "category": "clutter",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.AppStore",
+        "key": "UserSetAutoPlayVideoSetting"
+      },
+      "valueType": "int",
+      "value": 1,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Companion to appstore-video-autoplay-off. kdeldycke/dotfiles writes it as -int 1, philiprein/macos-settings as -bool true: read the existing type with defaults read-type before writing.",
+      "sources": [
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://github.com/philiprein/macos-settings/blob/main/app_settings/app_store.sh"
+      ]
+    },
+    {
+      "id": "dock-recent-apps-hide",
+      "name": "Hide suggested and recent apps in Dock",
+      "category": "clutter",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.dock",
+        "key": "show-recents",
+        "restart": [
+          "Dock"
+        ]
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "macos-defaults.com lists it as tested on Mojave through Sequoia, default true, revert by deleting the key, and restarts the Dock. Also in privacy.sexy with the same revert. Not listed as tested on Tahoe or later.",
+      "sources": [
+        "https://macos-defaults.com/dock/show-recents.html",
+        "https://github.com/yannbertrand/macos-defaults/blob/main/docs/dock/show-recents.md",
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml"
+      ]
+    },
+    {
+      "id": "spotlight-menu-bar-icon-hide",
+      "name": "Hide Spotlight menu bar icon",
+      "category": "clutter",
+      "tier": "safe",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.Spotlight",
+        "key": "MenuItemHidden",
+        "currentHost": true,
+        "restart": [
+          "SystemUIServer"
+        ]
+      },
+      "valueType": "bool",
+      "value": true,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Cosmetic, ByHost preference. Single read source: kdeldycke/dotfiles (2026-11), which notes Spotlight keeps its menu bar icon in its own domain and that the older com.apple.controlcenter Spotlight key is no longer read. Spotlight itself stays available by keyboard shortcut.",
+      "sources": [
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "desktop-widgets-hide",
+      "name": "Hide desktop widgets",
+      "category": "clutter",
+      "tier": "moderate",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.WindowManager",
+        "key": "StandardHideWidgets"
+      },
+      "valueType": "bool",
+      "value": true,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "The Raycast toggle-desktop-visibility extension reads and writes this key in separate code paths for Sonoma, Sequoia and Tahoe; nix-darwin documents it as 'Hide widgets on desktop'. Hides widgets, does not remove them. Neither source names a process to restart.",
+      "sources": [
+        "https://github.com/raycast/extensions/blob/main/extensions/toggle-desktop-visibility/src/utils/tahoe.ts",
+        "https://github.com/raycast/extensions/blob/main/extensions/toggle-desktop-visibility/src/utils/sonoma.ts",
+        "https://github.com/nix-darwin/nix-darwin/blob/master/modules/system/defaults/WindowManager.nix"
+      ]
+    },
+    {
+      "id": "stage-manager-widgets-hide",
+      "name": "Hide widgets in Stage Manager",
+      "category": "clutter",
+      "tier": "moderate",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.WindowManager",
+        "key": "StageManagerHideWidgets"
+      },
+      "valueType": "bool",
+      "value": true,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Single read source: nix-darwin ('Hide widgets in Stage Manager'). No tested build stated.",
+      "sources": [
+        "https://github.com/nix-darwin/nix-darwin/blob/master/modules/system/defaults/WindowManager.nix"
+      ]
+    },
+    {
+      "id": "svc-httpd-disable",
+      "name": "Disable built-in Apache web server",
+      "category": "services",
+      "tier": "safe",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "org.apache.httpd",
+        "domain": "system"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule os_httpd_disable (sonoma, sequoia, tahoe) stops Apache and runs launchctl disable in the system domain. Breaks local web development that uses the built-in Apache. Also pinned off by kdeldycke/dotfiles.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/os/os_httpd_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "svc-nfsd-disable",
+      "name": "Disable NFS server",
+      "category": "services",
+      "tier": "safe",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.apple.nfsd",
+        "domain": "system"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule os_nfsd_disable (sonoma, sequoia, tahoe) runs launchctl disable in the system domain and additionally removes /etc/exports, which this engine must not do. Breaks NFS exports from this Mac. Also pinned off by kdeldycke/dotfiles.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/os/os_nfsd_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "svc-tftpd-disable",
+      "name": "Disable TFTP daemon",
+      "category": "services",
+      "tier": "safe",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.apple.tftpd",
+        "domain": "system"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule os_tftpd_disable (sonoma, sequoia, tahoe branches) uses launchctl bootout plus disable in the system domain, with no SIP change; mSCP notes a restart may be needed. Off by default, so this pins it off. Also in privacy.sexy with enable as revert.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/os/os_tftpd_disable.yaml",
+        "https://github.com/undergroundwires/privacy.sexy/blob/master/src/application/collections/macos.yaml"
+      ]
+    },
+    {
+      "id": "svc-uucp-disable",
+      "name": "Disable UUCP daemon",
+      "category": "services",
+      "tier": "safe",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.apple.uucp",
+        "domain": "system"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule os_uucp_disable (sonoma, sequoia, tahoe) uses launchctl bootout plus disable in the system domain. Legacy service, off by default.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/os/os_uucp_disable.yaml"
+      ]
+    },
+    {
+      "id": "airplay-receiver-off",
+      "name": "Turn off AirPlay Receiver",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [],
+      "op": "defaults-write",
+      "target": {
+        "domain": "com.apple.controlcenter",
+        "key": "AirplayReceiverEnabled",
+        "currentHost": true
+      },
+      "valueType": "bool",
+      "value": false,
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "ByHost preference. Other devices can no longer AirPlay to this Mac. kdeldycke/dotfiles (2026-11) notes Apple shipped a misspelled key (AirplayRecieverEnabled) for a time and that only the corrected spelling is read by Control Center now; on older builds the misspelled key may be the live one, so read both before writing. mSCP enforces the same intent by profile (allowAirPlayIncomingRequests, macOS 12.3+).",
+      "sources": [
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh",
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_airplay_receiver_disable.yaml"
+      ]
+    },
+    {
+      "id": "svc-remote-apple-events-disable",
+      "name": "Disable Remote Apple Events",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.apple.AEServer",
+        "domain": "system"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule system_settings_rae_disable (tahoe) runs launchctl disable system/com.apple.AEServer and checks it with launchctl print-disabled; its companion systemsetup call needs Full Disk Access and is not part of this action. Off by default.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_rae_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "svc-screensharing-disable",
+      "name": "Disable Screen Sharing daemon",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.apple.screensharing",
+        "domain": "system",
+        "refuseOverSsh": true
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule system_settings_screen_sharing_disable (tahoe) uses launchctl bootout plus disable and notes it applies to the whole system. Breaks inbound Screen Sharing; refuse if the current session is remote. Also pinned off by kdeldycke/dotfiles.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_screen_sharing_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "svc-smbd-disable",
+      "name": "Disable SMB file sharing daemon",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.apple.smbd",
+        "domain": "system"
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule system_settings_smbd_disable (sonoma, sequoia, tahoe) runs launchctl disable system/com.apple.smbd and checks it with launchctl print-disabled. Breaks File Sharing from this Mac. Also pinned off by kdeldycke/dotfiles.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_smbd_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    },
+    {
+      "id": "svc-sshd-disable",
+      "name": "Disable Remote Login (SSH) daemon",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [],
+      "op": "launchctl-disable",
+      "target": {
+        "label": "com.openssh.sshd",
+        "domain": "system",
+        "refuseOverSsh": true
+      },
+      "applies": {
+        "minVersion": "14.0"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "mSCP rule system_settings_ssh_disable (tahoe) runs launchctl disable system/com.openssh.sshd; its companion systemsetup call needs Full Disk Access and is not part of this action. Locks out remote administration: refuse when the agent itself is running over SSH. kdeldycke/dotfiles describes this as pinning the service off across upgrades.",
+      "sources": [
+        "https://github.com/usnistgov/macos_security/blob/tahoe/rules/system_settings/system_settings_ssh_disable.yaml",
+        "https://github.com/kdeldycke/dotfiles/blob/main/macos-config.sh"
+      ]
+    }
+  ]
+}

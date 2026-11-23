@@ -1,0 +1,2267 @@
+{
+  "$schema": "./unix.schema.json",
+  "schemaVersion": 1,
+  "platform": "linux",
+  "testedOn": [],
+  "categories": [
+    "apps",
+    "telemetry",
+    "ads",
+    "services",
+    "snap"
+  ],
+  "tags": [
+    "office",
+    "media",
+    "printing",
+    "bluetooth",
+    "snap",
+    "gaming"
+  ],
+  "protected": {
+    "packages": [
+      "ubuntu-desktop*",
+      "ubuntu-minimal",
+      "ubuntu-standard",
+      "gnome-core",
+      "gnome-shell*",
+      "gdm",
+      "gdm3",
+      "nautilus",
+      "update-manager*",
+      "update-notifier*",
+      "zenity",
+      "yelp",
+      "python3",
+      "python3-minimal",
+      "network-manager",
+      "NetworkManager",
+      "unattended-upgrades",
+      "evolution-data-server*",
+      "gnome-software",
+      "snapd",
+      "apt",
+      "dpkg",
+      "dnf",
+      "dnf5",
+      "rpm",
+      "sudo",
+      "systemd",
+      "systemd-sysv",
+      "polkit",
+      "policykit-1",
+      "polkitd",
+      "libc6",
+      "glibc",
+      "linux-image-*",
+      "linux-generic*",
+      "kernel",
+      "kernel-core",
+      "grub*",
+      "shim*",
+      "ufw",
+      "firewalld",
+      "mint-meta-*",
+      "mintreport",
+      "mintupdate",
+      "task-gnome-desktop"
+    ],
+    "units": [
+      "snapd.*",
+      "unattended-upgrades.service",
+      "apt-daily*.timer",
+      "NetworkManager*",
+      "systemd-*",
+      "gdm*",
+      "dbus*",
+      "polkit.service",
+      "ufw.service",
+      "firewalld.service",
+      "dnf-automatic*"
+    ]
+  },
+  "items": [
+    {
+      "id": "aisleriot",
+      "name": "AisleRiot Solitaire",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "gaming"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "aisleriot"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04 only (dropped from the 24.04 seed); Debian 12 via gnome-games"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Ubuntu 22.04: Recommends of ubuntu-desktop. Debian: Depends of the gnome-games metapackage, which is removed with it (gnome-games is only a Recommends of gnome on Debian 12 and is not referenced by gnome on Debian 13).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "cheese",
+      "name": "Cheese webcam app",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "cheese"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04 only (24.04+ ships gnome-snapshot instead); Debian 12"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian 12: Depends of the gnome metapackage (removal removes that metapackage, not gnome-core).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "decibels-fedora",
+      "name": "Decibels audio player",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "decibels"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "deja-dup",
+      "name": "Deja Dup Backups",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "deja-dup"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. ",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop"
+      ]
+    },
+    {
+      "id": "gnome-boxes-fedora",
+      "name": "GNOME Boxes",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-boxes"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "gnome-calendar",
+      "name": "GNOME Calendar",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-calendar"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. DO NOT apply on Debian 13 (hard Depends of gnome-core).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-calendar-fedora",
+      "name": "GNOME Calendar",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-calendar"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "gnome-characters",
+      "name": "GNOME Characters",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-characters"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal. Hard Depends of gnome-core on Debian 12/13: do not apply there.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-clocks",
+      "name": "GNOME Clocks",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-clocks"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal. DO NOT apply on Debian 13 (hard Depends of gnome-core).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-clocks-fedora",
+      "name": "GNOME Clocks",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-clocks"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "gnome-connections-fedora",
+      "name": "GNOME Connections",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-connections"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "gnome-contacts-fedora",
+      "name": "GNOME Contacts",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-contacts"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "gnome-logs",
+      "name": "GNOME Logs",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-logs"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal. Hard Depends of gnome-core on Debian 12/13: do not apply there.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-mahjongg",
+      "name": "GNOME Mahjongg",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "gaming"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-mahjongg"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04 only (dropped from the 24.04 seed); Debian 12 via gnome-games"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Ubuntu 22.04: Recommends of ubuntu-desktop. Debian: Depends of the gnome-games metapackage, which is removed with it (gnome-games is only a Recommends of gnome on Debian 12 and is not referenced by gnome on Debian 13).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-maps-fedora",
+      "name": "GNOME Maps",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-maps"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "gnome-mines",
+      "name": "GNOME Mines",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "gaming"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-mines"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04 only (dropped from the 24.04 seed); Debian 12 via gnome-games"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Ubuntu 22.04: Recommends of ubuntu-desktop. Debian: Depends of the gnome-games metapackage, which is removed with it (gnome-games is only a Recommends of gnome on Debian 12 and is not referenced by gnome on Debian 13).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-music-debian",
+      "name": "GNOME Music",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-music"
+      },
+      "applies": {
+        "distros": [
+          "debian"
+        ],
+        "note": "Debian 13 (Recommends of gnome); Debian 12 (Depends of gnome)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Debian 12: removal also removes the gnome metapackage.",
+      "sources": [
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-sudoku",
+      "name": "GNOME Sudoku",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "gaming"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-sudoku"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04 only (dropped from the 24.04 seed); Debian 12 via gnome-games"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Ubuntu 22.04: Recommends of ubuntu-desktop. Debian: Depends of the gnome-games metapackage, which is removed with it (gnome-games is only a Recommends of gnome on Debian 12 and is not referenced by gnome on Debian 13).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "gnome-todo",
+      "name": "GNOME To Do",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "gnome-todo"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04 only"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. ",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble"
+      ]
+    },
+    {
+      "id": "gnome-weather-fedora",
+      "name": "GNOME Weather",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "gnome-weather"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "libreoffice-math",
+      "name": "LibreOffice Math",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "libreoffice-math"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. ",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop"
+      ]
+    },
+    {
+      "id": "mediawriter-fedora",
+      "name": "Fedora Media Writer",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "mediawriter"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the workstation-product comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "remmina",
+      "name": "Remmina remote desktop client",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "remmina"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. ",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop"
+      ]
+    },
+    {
+      "id": "rhythmbox",
+      "name": "Rhythmbox music player",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "rhythmbox"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04-26.10; Debian 12 only"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian 12: hard Depends of the gnome metapackage, so removal also removes the gnome metapackage (gnome-core stays). Not in Debian 13 gnome.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "rygel-fedora",
+      "name": "Rygel media server",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "rygel"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "shotwell",
+      "name": "Shotwell photo manager",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "shotwell"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04-26.10; Debian 12, 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian: Depends of the gnome metapackage (12: \"shotwell | gnome-photos\"; 13: shotwell) so that metapackage is removed too.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "simple-scan",
+      "name": "Document Scanner (simple-scan)",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "printing"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "simple-scan"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. DO NOT apply on Debian 13 (hard Depends of gnome-core). Debian 12: Depends of gnome metapackage.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "simple-scan-fedora",
+      "name": "Document Scanner (simple-scan)",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "printing"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "simple-scan"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of gnome-desktop group.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst"
+      ]
+    },
+    {
+      "id": "snapshot-fedora",
+      "name": "Snapshot camera app",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "snapshot"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of the gnome-desktop comps group. Preview with dnf remove --assumeno: clean_requirements_on_remove=True removes now-unused dependencies.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "thunderbird-deb",
+      "name": "Thunderbird (deb)",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "thunderbird"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04 (real deb); 24.04+ the deb is a transitional package for the snap"
+      },
+      "returnsAfterUpgrade": "sometimes",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. On 24.04+ removing the deb does not remove the snap (see thunderbird-snap). Release upgrade 22.04->24.04 transitions an installed deb to the snap.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop",
+        "https://www.omgubuntu.co.uk/2024/08/install-thunderbird-deb-not-snap-in-ubuntu-24-04",
+        "https://lists.ubuntu.com/archives/ubuntu-mozillateam-bugs/2025-September/181792.html"
+      ]
+    },
+    {
+      "id": "thunderbird-snap",
+      "name": "Thunderbird (snap)",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "snap",
+        "name": "thunderbird"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04+ (seeded as snap:thunderbird in the full desktop seed)"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "Seeded snap. snap remove saves an automatic data snapshot unless --purge. The seed says seeded snaps are also listed in DistUpgradeQuirks.py for upgraders; the upgrader replaces debs with snaps when snapd is installed.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/snap.8.html"
+      ]
+    },
+    {
+      "id": "transmission-gtk",
+      "name": "Transmission (BitTorrent client)",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "transmission-gtk"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04-26.10; Debian 12 (Recommends of gnome); not pulled by gnome on Debian 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian 12: Recommends of the gnome metapackage.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "usb-creator-gtk",
+      "name": "Startup Disk Creator",
+      "category": "apps",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "usb-creator-gtk"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10 (i386/amd64)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. ",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop"
+      ]
+    },
+    {
+      "id": "evolution-debian",
+      "name": "Evolution mail client",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "evolution"
+      },
+      "applies": {
+        "distros": [
+          "debian"
+        ],
+        "note": "Debian 12, 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Hard Depends of the gnome metapackage on both releases (metapackage removed with it; gnome-core stays). Do NOT confuse with evolution-data-server, which gnome-core depends on.",
+      "sources": [
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "libreoffice-calc",
+      "name": "LibreOffice Calc",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "libreoffice-calc"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04-26.10; Debian 12, 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian: hard Depends of the gnome metapackage (removed with it; gnome-core stays). Shared libreoffice-core/common remain until autoremove.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "libreoffice-calc-fedora",
+      "name": "LibreOffice Calc",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "libreoffice-calc"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Mandatory member of the libreoffice comps group, which is in workstation-product-environment. dnf5 clean_requirements_on_remove=True also removes unused deps; preview first.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "libreoffice-impress",
+      "name": "LibreOffice Impress",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "libreoffice-impress"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04-26.10; Debian 12, 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian: hard Depends of the gnome metapackage (removed with it; gnome-core stays). Shared libreoffice-core/common remain until autoremove.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "libreoffice-impress-fedora",
+      "name": "LibreOffice Impress",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "libreoffice-impress"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Mandatory member of the libreoffice comps group, which is in workstation-product-environment. dnf5 clean_requirements_on_remove=True also removes unused deps; preview first.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "libreoffice-writer",
+      "name": "LibreOffice Writer",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "libreoffice-writer"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian"
+        ],
+        "note": "Ubuntu 22.04-26.10; Debian 12, 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Debian: hard Depends of the gnome metapackage (removed with it; gnome-core stays). Shared libreoffice-core/common remain until autoremove.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "libreoffice-writer-fedora",
+      "name": "LibreOffice Writer",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "office"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "libreoffice-writer"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Mandatory member of the libreoffice comps group, which is in workstation-product-environment. dnf5 clean_requirements_on_remove=True also removes unused deps; preview first.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html"
+      ]
+    },
+    {
+      "id": "showtime",
+      "name": "Showtime video player",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "showtime"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 26.04, 26.10 (seed and ubuntu-desktop Recommends)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop. Leaves no default video player. Debian 13: satisfies gnome-core \"totem | showtime\", do not remove there.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "showtime-fedora",
+      "name": "Showtime video player",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "showtime"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default (not mandatory) member of gnome-desktop group. Leaves no default video player.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst"
+      ]
+    },
+    {
+      "id": "totem",
+      "name": "Totem video player",
+      "category": "apps",
+      "tier": "moderate",
+      "tags": [
+        "media"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "totem"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04, 24.04, 25.10 (26.04+ ships showtime instead)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends (not Depends) of ubuntu-desktop, so removal does not remove the metapackage. Leaves no default video player. DO NOT apply on Debian 12: totem is a hard Depends of gnome-core there.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=questing",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop?h=resolute",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "apport-autoreport-path",
+      "name": "apport-autoreport.path",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "apport-autoreport.path",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Triggers apport-autoreport.service (whoopsie-upload-all).",
+      "sources": [
+        "https://packages.ubuntu.com/noble/all/apport/filelist",
+        "https://bugs.launchpad.net/apport/+bug/2069360"
+      ]
+    },
+    {
+      "id": "apport-autoreport-timer",
+      "name": "apport-autoreport.timer",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "apport-autoreport.timer",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Triggers apport-autoreport.service (whoopsie-upload-all).",
+      "sources": [
+        "https://packages.ubuntu.com/noble/all/apport/filelist",
+        "https://bugs.launchpad.net/apport/+bug/2069360"
+      ]
+    },
+    {
+      "id": "apport-disable",
+      "name": "Apport crash interception",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "keyvalue-set",
+      "value": "0",
+      "target": {
+        "file": "/etc/default/apport",
+        "key": "enabled",
+        "separator": "="
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Upstream default file has enabled=1. Ubuntu docs say Apport is not enabled by default in stable releases even if installed, so the prior value may already be 0.",
+      "sources": [
+        "https://raw.githubusercontent.com/canonical/apport/main/etc/default/apport",
+        "https://ubuntu.com/project/docs/contributors/debugging/apport/",
+        "https://packages.ubuntu.com/noble/all/apport/filelist"
+      ]
+    },
+    {
+      "id": "fedora-abrt-journal-core",
+      "name": "abrt-journal-core.service (ABRT)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "abrt-journal-core.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44 and earlier (no abrt package in Workstation comps groups in 45)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "F44 Workstation comps ship abrt-cli (default in workstation-product) but not gnome-abrt; F45 comps have no abrt package in the Workstation groups. Engine must skip when the unit is not found. Retrace server does not support F43/F44.",
+      "sources": [
+        "https://dev.to/robbinespu/disabling-fedora-abrt-notification-1i40",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://discussion.fedoraproject.org/t/last-call-to-save-abrt/188901"
+      ]
+    },
+    {
+      "id": "fedora-abrt-oops",
+      "name": "abrt-oops.service (ABRT)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "abrt-oops.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44 and earlier (no abrt package in Workstation comps groups in 45)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "F44 Workstation comps ship abrt-cli (default in workstation-product) but not gnome-abrt; F45 comps have no abrt package in the Workstation groups. Engine must skip when the unit is not found. Retrace server does not support F43/F44.",
+      "sources": [
+        "https://dev.to/robbinespu/disabling-fedora-abrt-notification-1i40",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://discussion.fedoraproject.org/t/last-call-to-save-abrt/188901"
+      ]
+    },
+    {
+      "id": "fedora-abrt-xorg",
+      "name": "abrt-xorg.service (ABRT)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "abrt-xorg.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44 and earlier (no abrt package in Workstation comps groups in 45)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "F44 Workstation comps ship abrt-cli (default in workstation-product) but not gnome-abrt; F45 comps have no abrt package in the Workstation groups. Engine must skip when the unit is not found. Retrace server does not support F43/F44.",
+      "sources": [
+        "https://dev.to/robbinespu/disabling-fedora-abrt-notification-1i40",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://discussion.fedoraproject.org/t/last-call-to-save-abrt/188901"
+      ]
+    },
+    {
+      "id": "fedora-abrtd",
+      "name": "abrtd.service (ABRT)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "abrtd.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44 and earlier (no abrt package in Workstation comps groups in 45)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "F44 Workstation comps ship abrt-cli (default in workstation-product) but not gnome-abrt; F45 comps have no abrt package in the Workstation groups. Engine must skip when the unit is not found. Retrace server does not support F43/F44.",
+      "sources": [
+        "https://dev.to/robbinespu/disabling-fedora-abrt-notification-1i40",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://discussion.fedoraproject.org/t/last-call-to-save-abrt/188901"
+      ]
+    },
+    {
+      "id": "gnome-report-technical-problems",
+      "name": "GNOME: send technical problem reports",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "gsettings-set",
+      "target": {
+        "schema": "org.gnome.desktop.privacy",
+        "key": "report-technical-problems"
+      },
+      "value": "false",
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian",
+          "fedora"
+        ],
+        "note": "GNOME desktops (all targets)"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "Upstream default is already false; distro overrides not verified.",
+      "sources": [
+        "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/raw/master/schemas/org.gnome.desktop.privacy.gschema.xml.in"
+      ]
+    },
+    {
+      "id": "gnome-send-software-usage-stats",
+      "name": "GNOME: send software usage stats",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "gsettings-set",
+      "target": {
+        "schema": "org.gnome.desktop.privacy",
+        "key": "send-software-usage-stats"
+      },
+      "value": "false",
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian",
+          "fedora"
+        ],
+        "note": "GNOME desktops (all targets)"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "Upstream default is already false.",
+      "sources": [
+        "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/raw/master/schemas/org.gnome.desktop.privacy.gschema.xml.in"
+      ]
+    },
+    {
+      "id": "kerneloops",
+      "name": "kerneloops (kernel oops reporter)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "kerneloops"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04, 24.04 (absent from 26.10 ubuntu-desktop)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal (binary package is kerneloops; the seed calls it kerneloops-daemon). Submits oops signatures to oops.kernel.org.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/platform/plain/desktop-common?h=noble",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://packages.ubuntu.com/jammy/ubuntu-desktop",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/kerneloops.8.html"
+      ]
+    },
+    {
+      "id": "popcon-participate",
+      "name": "Debian popularity-contest participation",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "keyvalue-set",
+      "value": "\"no\"",
+      "target": {
+        "file": "/etc/popularity-contest.conf",
+        "key": "PARTICIPATE",
+        "separator": "="
+      },
+      "applies": {
+        "distros": [
+          "debian"
+        ],
+        "note": "Debian 12, 13 (when popularity-contest is installed)"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "Default is already \"no\" unless the user opted in. Engine must skip if the file is absent.",
+      "sources": [
+        "https://sources.debian.org/src/popularity-contest/1.79/default.conf",
+        "https://manpages.ubuntu.com/manpages/noble/man8/popularity-contest.8.html"
+      ]
+    },
+    {
+      "id": "popularity-contest",
+      "name": "popularity-contest package",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "popularity-contest"
+      },
+      "applies": {
+        "distros": [
+          "debian"
+        ],
+        "note": "Debian 12, 13"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Priority optional; Depends only on debconf and dpkg. Not a dependency of gnome, gnome-core or task-gnome-desktop.",
+      "sources": [
+        "https://deb.debian.org/debian/dists/bookworm/main/binary-amd64/Packages.xz",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz"
+      ]
+    },
+    {
+      "id": "ubuntu-insights",
+      "name": "Ubuntu Insights (telemetry)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "ubuntu-insights"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 25.10+"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal. Opt-in, per-user consent; no system-wide opt-out, Canonical suggests removing the package. With consent false an {\"OptOut\": true} payload is still sent. CLI alternative: ubuntu-insights consent -s=false.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=questing",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://discourse.ubuntu.com/t/ubuntu-insights-how-telemetry-is-changing-on-ubuntu-desktop/73442",
+        "https://raw.githubusercontent.com/ubuntu/ubuntu-insights/main/README.md"
+      ]
+    },
+    {
+      "id": "ubuntu-report",
+      "name": "Ubuntu Report (install-time telemetry)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "ubuntu-report"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.04 (dropped from the 26.10 seed)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal. Ships user units ubuntu-report.path / ubuntu-report.service and an autostart file.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=stonking",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://packages.ubuntu.com/noble/amd64/ubuntu-report/filelist"
+      ]
+    },
+    {
+      "id": "whoopsie-package",
+      "name": "Whoopsie (error report uploader)",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "whoopsie"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop"
+      ]
+    },
+    {
+      "id": "whoopsie-path",
+      "name": "whoopsie.path",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "whoopsie.path",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "apport-autoreport treats a disabled whoopsie.path as \"do nothing\" (fixed in apport 2.28.1-0ubuntu3.1; earlier noble builds logged a failure).",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/whoopsie/filelist",
+        "https://bugs.launchpad.net/apport/+bug/2069360"
+      ]
+    },
+    {
+      "id": "whoopsie-service",
+      "name": "whoopsie.service",
+      "category": "telemetry",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "whoopsie.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit names verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Uploads crash reports to the Ubuntu error tracker.",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/whoopsie/filelist",
+        "https://ubuntu.com/project/docs/contributors/debugging/apport/"
+      ]
+    },
+    {
+      "id": "apport-crash-popup",
+      "name": "Apport crash notification popups",
+      "category": "telemetry",
+      "tier": "moderate",
+      "tags": [],
+      "op": "gsettings-set",
+      "target": {
+        "schema": "com.ubuntu.update-notifier",
+        "key": "show-apport-crashes"
+      },
+      "value": "false",
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04+"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Hides crash dialogs only; does not stop collection.",
+      "sources": [
+        "https://ubuntu.com/project/docs/contributors/debugging/apport/"
+      ]
+    },
+    {
+      "id": "gnome-location-services",
+      "name": "GNOME: location services",
+      "category": "telemetry",
+      "tier": "moderate",
+      "tags": [],
+      "op": "gsettings-set",
+      "target": {
+        "schema": "org.gnome.system.location",
+        "key": "enabled"
+      },
+      "value": "false",
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian",
+          "fedora"
+        ],
+        "note": "GNOME desktops (all targets)"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "Upstream default false. Sunrise/sunset Night Light depends on location (gnome-settings-daemon issue 71).",
+      "sources": [
+        "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/raw/master/schemas/org.gnome.system.location.gschema.xml.in",
+        "https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/71"
+      ]
+    },
+    {
+      "id": "gnome-remember-app-usage",
+      "name": "GNOME: remember application usage",
+      "category": "telemetry",
+      "tier": "moderate",
+      "tags": [],
+      "op": "gsettings-set",
+      "target": {
+        "schema": "org.gnome.desktop.privacy",
+        "key": "remember-app-usage"
+      },
+      "value": "false",
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian",
+          "fedora"
+        ],
+        "note": "GNOME desktops (all targets)"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "Upstream default true. Local only.",
+      "sources": [
+        "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/raw/master/schemas/org.gnome.desktop.privacy.gschema.xml.in"
+      ]
+    },
+    {
+      "id": "gnome-remember-recent-files",
+      "name": "GNOME: remember recent files",
+      "category": "telemetry",
+      "tier": "moderate",
+      "tags": [],
+      "op": "gsettings-set",
+      "target": {
+        "schema": "org.gnome.desktop.privacy",
+        "key": "remember-recent-files"
+      },
+      "value": "false",
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "debian",
+          "fedora"
+        ],
+        "note": "GNOME desktops (all targets)"
+      },
+      "returnsAfterUpgrade": "no",
+      "notes": "Upstream default true. Recent-files lists go empty. Local only, no network.",
+      "sources": [
+        "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/raw/master/schemas/org.gnome.desktop.privacy.gschema.xml.in"
+      ]
+    },
+    {
+      "id": "motd-news-enabled",
+      "name": "Ubuntu MOTD news fetch",
+      "category": "ads",
+      "tier": "safe",
+      "tags": [],
+      "op": "keyvalue-set",
+      "value": "0",
+      "target": {
+        "file": "/etc/default/motd-news",
+        "key": "ENABLED",
+        "separator": "="
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04+ (file ships in motd-news-config, pulled in by ubuntu-server; desktops disabled by default)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Canonical-documented switch. The fetch sends OS version, kernel, arch, CPU model, uptime and cloud id. Engine must skip if the file is absent.",
+      "sources": [
+        "https://canonical.com/legal/motd",
+        "https://bugs.launchpad.net/ubuntu/+source/base-files/+bug/1888575"
+      ]
+    },
+    {
+      "id": "motd-news-timer",
+      "name": "motd-news.timer",
+      "category": "ads",
+      "tier": "safe",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "motd-news.timer",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (verified on noble base-files)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Users report the timer still triggers motd-news.service with ENABLED=0 (LP #2022825); the maintainer said users are free to disable the timer.",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/base-files/filelist",
+        "https://bugs.launchpad.net/bugs/2022825"
+      ]
+    },
+    {
+      "id": "avahi-daemon-service",
+      "name": "Avahi mDNS/DNS-SD daemon",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [
+        "printing"
+      ],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "avahi-daemon.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "avahi-daemon.socket must be disabled too. Breaks mDNS name resolution (nss-mdns) and DNS-SD service discovery for D-Bus clients.",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/avahi-daemon/filelist",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/avahi-daemon.8.html",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/platform/plain/desktop-common?h=noble"
+      ]
+    },
+    {
+      "id": "avahi-daemon-socket",
+      "name": "Avahi activation socket",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [
+        "printing"
+      ],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "avahi-daemon.socket",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Pair with avahi-daemon-service.",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/avahi-daemon/filelist",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/avahi-daemon.8.html"
+      ]
+    },
+    {
+      "id": "cups-browsed-fedora",
+      "name": "cups-browsed (network printer auto-discovery)",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [
+        "printing"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "dnf",
+        "name": "cups-browsed"
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Default member of the printing group. Network printers are no longer auto-detected; already configured printers keep working. Subject of CVE-2024-47176.",
+      "sources": [
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/repodata/6a37d36914955dc65cf6dc037c37dcf00c64ded464dc34164a674bf65fa16927-comps-Everything.x86_64.xml.zst",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://ubuntu.com/blog/cups-remote-code-execution-vulnerability-fix-available"
+      ]
+    },
+    {
+      "id": "fwupd-refresh-timer",
+      "name": "fwupd metadata refresh timer",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "fwupd-refresh.timer",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Stops the periodic firmware metadata refresh and its MOTD notice. fwupd.service itself is a separate unit.",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/fwupd/filelist",
+        "https://manpages.ubuntu.com/manpages/noble/man8/fwupd-refresh.service.8.html"
+      ]
+    },
+    {
+      "id": "modemmanager-service",
+      "name": "ModemManager",
+      "category": "services",
+      "tier": "moderate",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "ModemManager.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Breaks mobile broadband modems (ModemManager is the API for them).",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/modemmanager/filelist",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/ModemManager.8.html"
+      ]
+    },
+    {
+      "id": "bluetooth-service",
+      "name": "Bluetooth daemon (bluez)",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [
+        "bluetooth"
+      ],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "bluetooth.service",
+        "scope": "system"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit verified on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Disables Bluetooth support (bluez is the seed base for bluetooth support).",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/bluez/filelist",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/platform/plain/desktop-common?h=noble"
+      ]
+    },
+    {
+      "id": "cups",
+      "name": "CUPS printing system",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [
+        "printing"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "cups"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Recommends of ubuntu-desktop-minimal. Removes printing. DO NOT apply on Debian 13 (hard Depends of gnome-core) or Fedora (mandatory in printing group).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/platform/plain/desktop-common?h=noble",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://packages.ubuntu.com/stonking/ubuntu-desktop",
+        "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst"
+      ]
+    },
+    {
+      "id": "localsearch-indexer",
+      "name": "LocalSearch file indexer (localsearch 3.8+)",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "localsearch-3.service",
+        "scope": "user",
+        "mask": true
+      },
+      "applies": {
+        "distros": [
+          "fedora"
+        ],
+        "note": "Fedora 44, 45 (localsearch in gnome-desktop group); any distro shipping localsearch >= 3.8"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Also started by D-Bus activation and XDG autostart, so disable alone may not keep it stopped (mask is outside the engine op set). Desktop file search/indexing stops.",
+      "sources": [
+        "https://gitlab.gnome.org/GNOME/localsearch/-/raw/main/src/indexer/meson.build",
+        "https://gitlab.gnome.org/GNOME/localsearch/-/raw/main/NEWS",
+        "https://dl.fedoraproject.org/pub/fedora/linux/releases/45/Everything/x86_64/os/repodata/33b08445a1beb3712913d91fa00042d3a60b678be68f8e68cc2587bbb6b35d06-comps-Everything.x86_64.xml.zst",
+        "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      ]
+    },
+    {
+      "id": "tracker-miner-fs-indexer",
+      "name": "Tracker Miner FS file indexer (tracker-miners 3.x)",
+      "category": "services",
+      "tier": "aggressive",
+      "tags": [],
+      "op": "systemd-disable",
+      "target": {
+        "unit": "tracker-miner-fs-3.service",
+        "scope": "user",
+        "mask": true
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04 (unit verified in tracker-miner-fs on noble)"
+      },
+      "returnsAfterUpgrade": "unknown",
+      "notes": "Same caveat as localsearch-indexer: D-Bus/XDG-autostart activation can restart it.",
+      "sources": [
+        "https://packages.ubuntu.com/noble/amd64/tracker-miner-fs/filelist",
+        "https://gitlab.gnome.org/GNOME/localsearch/-/raw/3.7.3/src/miners/fs/meson.build"
+      ]
+    },
+    {
+      "id": "desktop-security-center-snap",
+      "name": "Security Center (snap)",
+      "category": "snap",
+      "tier": "aggressive",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "snap",
+        "name": "desktop-security-center"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 25.10-26.10"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "Seeded together with prompting-client.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=questing",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/snap.8.html"
+      ]
+    },
+    {
+      "id": "firmware-updater-snap",
+      "name": "Firmware Updater (snap)",
+      "category": "snap",
+      "tier": "aggressive",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "snap",
+        "name": "firmware-updater"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 24.04-26.10 (amd64)"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "GUI front end for firmware updates; the fwupd deb remains.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/snap.8.html"
+      ]
+    },
+    {
+      "id": "prompting-client-snap",
+      "name": "Snap permission prompting client",
+      "category": "snap",
+      "tier": "aggressive",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "snap",
+        "name": "prompting-client"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 25.10-26.10"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "Seeded together with desktop-security-center.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=questing",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/snap.8.html"
+      ]
+    },
+    {
+      "id": "firefox-snap",
+      "name": "Firefox (snap)",
+      "category": "snap",
+      "tier": "never-default",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "snap",
+        "name": "firefox"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "Default browser. Seed comment: desktop snaps also exist in DistUpgradeQuirks.py for users who upgrade. Purging snapd with firefox snap <129 present failed in postrm (LP #2058810).",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://bugs.launchpad.net/ubuntu/+source/snapd/+bug/2058810",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/snap.8.html"
+      ]
+    },
+    {
+      "id": "snap-store",
+      "name": "App Center / Ubuntu Software (snap-store)",
+      "category": "snap",
+      "tier": "never-default",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "snap",
+        "name": "snap-store"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu"
+        ],
+        "note": "Ubuntu 22.04-26.10"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "Graphical software centre. Leaves no GUI installer unless another is installed.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=jammy",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=noble",
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/ubuntu/plain/desktop-minimal?h=resolute",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://manpages.ubuntu.com/manpages/noble/en/man8/snap.8.html"
+      ]
+    },
+    {
+      "id": "snapd",
+      "name": "snapd (snap daemon)",
+      "category": "snap",
+      "tier": "never-default",
+      "tags": [
+        "snap"
+      ],
+      "op": "package-remove",
+      "target": {
+        "manager": "apt",
+        "name": "snapd"
+      },
+      "applies": {
+        "distros": [
+          "ubuntu",
+          "linuxmint"
+        ],
+        "note": "Ubuntu 22.04-26.10; Mint 20 documents blocking it via /etc/apt/preferences.d/nosnap.pref"
+      },
+      "returnsAfterUpgrade": "yes",
+      "notes": "Removes every snap (Firefox, Thunderbird 24.04+, App Center, firmware-updater, Security Center, gnome/mesa runtimes). Transitional thunderbird deb reinstalls it. Release upgrader checks Snap Store connectivity and replaces debs with snaps when snapd is installed. Recommends of ubuntu-desktop-minimal.",
+      "sources": [
+        "https://git.launchpad.net/~ubuntu-core-dev/ubuntu-seeds/+git/platform/plain/desktop-common?h=noble",
+        "https://packages.ubuntu.com/noble/ubuntu-desktop-minimal",
+        "https://git.launchpad.net/ubuntu-release-upgrader/plain/DistUpgrade/DistUpgradeQuirks.py",
+        "https://www.omgubuntu.co.uk/2024/08/install-thunderbird-deb-not-snap-in-ubuntu-24-04",
+        "https://bugs.launchpad.net/ubuntu/+source/snapd/+bug/2058810",
+        "https://linuxmint-user-guide.readthedocs.io/en/latest/snap.html"
+      ]
+    }
+  ]
+}

@@ -1,28 +1,35 @@
 # Winnow
 
-*To winnow: to blow the chaff away and keep the grain.* Windows debloat, runnable by a coding agent.
+*To winnow: to blow the chaff away and keep the grain.* OS debloat for Windows, Linux and
+macOS, runnable by a coding agent.
 
-A sourced catalog of Windows 10/11 bloat plus a small PowerShell engine that removes it
-reversibly. It is built to be driven by an API-backed coding agent (Claude Code, Codex CLI,
-Gemini CLI): you paste one prompt, the agent inspects your machine, shows you a plan, and
+Sourced catalogs of preinstalled bloat, telemetry and nags, plus small engines that remove
+them reversibly. It is built to be driven by an API-backed coding agent (Claude Code, Codex
+CLI, Gemini CLI): you paste one prompt, the agent inspects your machine, shows you a plan, and
 applies it only after you approve.
 
-Targets: Windows 10 22H2 (19045) and Windows 11 23H2 (22631), 24H2 (26100), 25H2 (26200).
+| OS | Targets | Catalog | Engine |
+|---|---|---|---|
+| Windows | 10 22H2 (19045); 11 23H2 (22631), 24H2 (26100), 25H2 (26200) | [catalog/items.json](catalog/items.json) | PowerShell 5.1, `scripts\Invoke-Debloat.ps1` |
+| Linux | Ubuntu 22.04+, Debian 12+, Fedora Workstation (GNOME desktop installs) | [catalog/linux.json](catalog/linux.json) | Python 3, `scripts/winnow.py` |
+| macOS | 14 Sonoma and later | [catalog/macos.json](catalog/macos.json) | Python 3, `scripts/winnow.py` |
 
 > **Disclaimer.** This changes system settings and removes apps. It has automated tests for
-> its catalog, dry-run and registry logic, but the apply path has **not** been exercised on a
-> range of real machines yet. Use it on a machine you can afford to repair, keep the run log,
+> its catalogs and dry-run logic, and CI runs real change-and-revert cycles on throwaway
+> targets on Windows, Ubuntu and macOS runners, but the shipped catalogs have **not** been
+> applied on a range of real machines yet. The Linux and macOS catalogs are newer and less
+> proven than the Windows one. Use it on a machine you can afford to repair, keep the run log,
 > and read the plan before approving it. No warranty; see [LICENSE](LICENSE).
 
 ## Quick start
 
-1. Open your coding agent in a terminal on the Windows machine.
-2. Paste the prompt from [PROMPT.md](PROMPT.md).
+1. Open your coding agent in a terminal on the machine.
+2. Paste the prompt for your OS from [PROMPT.md](PROMPT.md).
 3. Answer its two questions (profile, exclusions), read the plan, approve or not.
 
-The agent's rules are in [AGENTS.md](AGENTS.md). It may run two scripts and nothing else.
+The agent's rules are in [AGENTS.md](AGENTS.md). It may run the repo's scripts and nothing else.
 
-## Without an agent
+## Without an agent: Windows
 
 From the repo root, in Windows PowerShell 5.1:
 
@@ -55,7 +62,40 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-Debloat.p
 
 Exit codes: `0` ok, `1` unexpected error, `2` precondition failed (nothing changed), `3` finished with failures, `4` invalid input or catalog.
 
-## What it does and does not do
+## Without an agent: Linux and macOS
+
+Needs `python3` (3.8+; on macOS it comes with the Command Line Tools: `xcode-select --install`).
+Run as your normal user, never with `sudo`; the script calls `sudo` itself for the single
+commands that need it, so run `sudo -v` first.
+
+```sh
+python3 scripts/winnow.py state                                  # read-only report
+python3 scripts/winnow.py plan --profile safe --exclude media    # dry run, prints PLAN_FILE=...
+python3 scripts/winnow.py apply --plan logs/plan-<id>.json       # apply exactly that plan
+python3 scripts/winnow.py revert logs/run-<id>.json --apply      # undo a run
+```
+
+What it can do, and nothing else:
+
+| OS | Operation | Undo |
+|---|---|---|
+| Linux | Remove a package with apt, dnf, snap or flatpak (never purge) | Reinstall |
+| Linux | Disable and stop a systemd unit | Restore logged enablement, restart |
+| Linux | Set a GNOME `gsettings` key | Restore logged value |
+| Linux | Set `KEY=value` in a file under `/etc` | Restore logged line |
+| macOS | `defaults write` a preference | Restore logged value, or delete the key |
+| macOS | Move an app in `/Applications` to the Trash | Move it back, or App Store link |
+| macOS | `launchctl disable` a service | `launchctl enable` |
+
+Guards: a package is skipped (`skip:blocked`) when the package manager says removing it would
+also remove anything else; protected packages, units, services and preference domains are
+listed in each catalog and cannot be reached by any profile; it stops on Macs enrolled in
+device management; it never disables SIP, never touches `/System`, and offers none of Apple's
+own background agents. Before the first change it backs up every file and preference domain
+it will touch and takes a filesystem snapshot (Timeshift or Snapper; a Time Machine local
+snapshot on macOS). With no snapshot tool it stops unless you pass `--no-snapshot`.
+
+## What it does and does not do (Windows)
 
 Does, all driven by [catalog/items.json](catalog/items.json):
 
@@ -88,12 +128,15 @@ Never does:
 ```
 AGENTS.md  CLAUDE.md  GEMINI.md   agent rules (the last two import AGENTS.md)
 PROMPT.md                         the one-paste prompt
-catalog/items.json                every item: id, category, tier, detect, remove, revert, builds, sources
-catalog/items.schema.json         JSON Schema (draft-07) for the catalog
-scripts/Invoke-Debloat.ps1        entry point
-scripts/Test-State.ps1            read-only state report
+catalog/items.json                Windows: id, category, tier, detect, remove, revert, builds, sources
+catalog/items.schema.json         JSON Schema (draft-07) for the Windows catalog
+catalog/linux.json, macos.json    Linux and macOS catalogs
+catalog/unix.schema.json          JSON Schema (draft-07) for those two
+scripts/Invoke-Debloat.ps1        Windows entry point
+scripts/Test-State.ps1            Windows read-only state report
 scripts/modules/*.psm1            Common, Appx, Services, Tasks, Registry, Policies, AI-Features
-tests/                            Pester 5 tests
+scripts/winnow.py                 Linux and macOS engine (standard library only)
+tests/                            Pester 5 tests (Windows), unittest + integration.sh (Linux, macOS)
 research/                         findings per track, synthesis, sources, tools comparison
 logs/                             plans, run logs, registry exports (gitignored)
 ```
@@ -101,7 +144,8 @@ logs/                             plans, run logs, registry exports (gitignored)
 ## Tests
 
 ```powershell
-Invoke-Pester -Path tests      # Pester 5
+Invoke-Pester -Path tests                              # Windows, Pester 5
+python3 -m unittest discover -s tests -p "test_*.py"   # Linux/macOS engine; runs on any OS
 ```
 
 On your machine, tests never pass `-Apply` from an elevated session. The registry round-trip
@@ -110,9 +154,13 @@ test writes only under `HKCU\Software\WinDebloatKitTest` and removes it. `tests\
 fixture item) runs only when elevated with `WINNOW_ELEVATED_TESTS=1`; CI sets that on a
 disposable runner.
 
+The Python unit tests send every command to a fake shell, so they cannot change a machine.
+`tests/integration.sh` does a real plan, apply and revert against throwaway targets it creates
+itself; it refuses to run without `WINNOW_INTEGRATION=1` and is meant for CI or a VM.
+
 ## Editing the catalog
 
-`catalog/items.json` is the source of truth and is edited by hand. Rules: every item needs an
+The catalog files are the source of truth and are edited by hand. Rules: every item needs an
 `https://` source, an exact identifier, a tier, and one of the six operations. Run the tests;
 they check the schema, uniqueness, that no profile reaches a protected identifier, and that no
 identifier is hardcoded in `scripts/`. `.claude/settings.json` is a permission allowlist for
