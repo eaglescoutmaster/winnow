@@ -22,7 +22,7 @@ Rules for this whole session:
 
 Steps:
 1. Clone the repository into a new folder with
-   git clone --branch v0.2.0 --depth 1 https://github.com/eaglescoutmaster/winnow
+   git clone --branch v0.3.0 --depth 1 https://github.com/eaglescoutmaster/winnow
    then cd into it and read AGENTS.md completely.
    Tell me in two sentences what you are and are not allowed to do.
 2. Run scripts\Test-State.ps1 and summarise this machine: Windows version and build, how many
@@ -74,7 +74,7 @@ Rules for this whole session:
 
 Steps:
 1. Clone the repository into a new folder with
-   git clone --branch v0.2.0 --depth 1 https://github.com/eaglescoutmaster/winnow
+   git clone --branch v0.3.0 --depth 1 https://github.com/eaglescoutmaster/winnow
    then cd into it and read AGENTS.md completely.
    Tell me in two sentences what you are and are not allowed to do.
 2. Run python3 scripts/winnow.py state and summarise this machine: OS, distribution and

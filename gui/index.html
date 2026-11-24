@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'">
+<title>Winnow</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1d1f21; --muted: #6a6f76; --line: #dedbd3;
+  --accent: #2f6f4f; --accent-ink: #ffffff; --warn: #9a5b00; --warn-bg: #fff4dd;
+  --danger: #a3271f; --danger-bg: #fdecea; --safe: #2f6f4f; --moderate: #8a6100; --aggressive: #a3271f; --never: #5b4a8a;
+  --chip: #ecebe5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17191b; --panel: #202326; --ink: #e8e6e1; --muted: #9aa0a6; --line: #34383d;
+    --accent: #5fb98a; --accent-ink: #0f1a14; --warn: #f0b952; --warn-bg: #33290f;
+    --danger: #f08379; --danger-bg: #3a1a17; --safe: #5fb98a; --moderate: #e0b04a; --aggressive: #f08379; --never: #b3a2e6;
+    --chip: #2b2f33;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { padding: 18px 24px 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+h1 { margin: 0; font-size: 22px; letter-spacing: .02em; }
+h2 { margin: 0 0 8px; font-size: 15px; }
+.sub { color: var(--muted); }
+main { padding: 0 24px 110px; max-width: 1180px; margin: 0 auto; }
+header { max-width: 1180px; margin: 0 auto; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+.notice { border-radius: 8px; padding: 8px 12px; margin: 6px 0; background: var(--warn-bg); color: var(--warn); }
+.notice.err { background: var(--danger-bg); color: var(--danger); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, .chip { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 7px; padding: 6px 12px; cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: default; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.danger { background: var(--danger); color: #fff; border-color: var(--danger); font-weight: 600; }
+button.link { border: 0; background: none; padding: 0; color: var(--accent); text-decoration: underline; }
+.chip { background: var(--chip); padding: 4px 10px; border-radius: 999px; user-select: none; }
+.chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+input[type=search] { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); min-width: 200px; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; padding: 6px 8px; }
+td { padding: 7px 8px; border-top: 1px solid var(--line); vertical-align: top; }
+tr.cat td { background: var(--bg); font-weight: 700; border-top: 1px solid var(--line); }
+tr.off td { color: var(--muted); }
+.tier { font-size: 12px; font-weight: 700; white-space: nowrap; }
+.tier.safe { color: var(--safe); } .tier.moderate { color: var(--moderate); }
+.tier.aggressive { color: var(--aggressive); } .tier.never-default { color: var(--never); }
+.status { font-size: 12px; white-space: nowrap; }
+.detail { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.notes { color: var(--muted); font-size: 12.5px; margin-top: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.notes a { color: var(--accent); }
+.bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--panel); border-top: 1px solid var(--line); padding: 12px 24px; display: flex; gap: 14px; align-items: center; }
+.bar .grow { flex: 1; }
+dialog { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink); width: min(820px, 94vw); max-height: 90vh; padding: 18px 20px; }
+#dlgBody { overflow: auto; max-height: 68vh; }
+dialog::backdrop { background: rgba(0, 0, 0, .45); }
+pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow: auto; max-height: 300px; font: 12px/1.4 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+label.opt { display: block; margin: 6px 0; }
+label.opt small { display: block; color: var(--muted); margin-left: 22px; }
+.spin { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: s 0.8s linear infinite; vertical-align: -2px; }
+@keyframes s { to { transform: rotate(360deg); } }
+@media (max-width: 720px) { .hide-sm { display: none; } main, header, .bar { padding-left: 14px; padding-right: 14px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Winnow</h1>
+  <span class="sub" id="machine">Loading…</span>
+</header>
+<main>
+  <div id="notices"></div>
+
+  <section class="panel">
+    <div class="row">
+      <strong>Preset</strong>
+      <button data-preset="safe">Safe</button>
+      <button data-preset="moderate">Moderate</button>
+      <button data-preset="aggressive">Aggressive</button>
+      <button data-preset="none">Clear</button>
+      <span class="sub hide-sm">Presets only tick boxes. Nothing changes until you apply a plan.</span>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <strong>Keep</strong>
+      <span id="tags" class="row"></span>
+      <span class="grow" style="flex:1"></span>
+      <label><input type="checkbox" id="onlyPresent" checked> Only what is on this machine</label>
+      <input type="search" id="filter" placeholder="Filter…">
+    </div>
+  </section>
+
+  <section class="panel" style="padding:0">
+    <table>
+      <thead><tr><th style="width:34px"></th><th>Item</th><th>Tier</th><th class="hide-sm">Status</th></tr></thead>
+      <tbody id="items"><tr><td colspan="4" class="sub">Reading machine state <span class="spin"></span></td></tr></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>History</h2>
+    <div id="runs" class="sub">No runs yet.</div>
+  </section>
+</main>
+
+<div class="bar">
+  <span id="count" class="sub">0 selected</span>
+  <span class="grow"></span>
+  <button id="refresh">Refresh</button>
+  <button id="preview" class="primary" disabled>Preview plan</button>
+  <button id="quit" title="Stop the local server">Quit</button>
+</div>
+
+<dialog id="dlg">
+  <h2 id="dlgTitle"></h2>
+  <div id="dlgBody"></div>
+  <div class="row" style="justify-content:flex-end; margin-top:14px" id="dlgButtons"></div>
+</dialog>
+
+<script>
+"use strict";
+const token = new URLSearchParams(location.search).get("t") || "";
+const $ = (id) => document.getElementById(id);
+const TIERS = ["safe", "moderate", "aggressive", "never-default"];
+let state = null;            // /api/state response
+const picked = new Set();    // item ids ticked
+const keep = new Set();      // exclusion tags switched on
+const unlocked = new Set();  // never-default ids the user unlocked
+const open = new Set();      // ids with notes expanded
+
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else if (v === true) n.setAttribute(k, "");
+    else if (v !== false && v != null) n.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid != null) n.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  return n;
+}
+
+async function api(path, body) {
+  const res = await fetch(path, {
+    method: body === undefined ? "GET" : "POST",
+    headers: { "X-Winnow-Token": token, "Content-Type": "application/json" },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const text = await res.text();
+  let data = null;
+  try { data = JSON.parse(text); } catch (e) { /* not JSON */ }
+  if (!res.ok) throw new Error((data && data.error) || text || ("HTTP " + res.status));
+  return data;
+}
+
+function notice(text, err) { $("notices").append(el("div", { class: "notice" + (err ? " err" : "") }, text)); }
+
+function selectable(it) {
+  return it.status === "present" && (it.tier !== "never-default" || unlocked.has(it.id));
+}
+
+function applyPreset(name) {
+  picked.clear();
+  if (name !== "none") {
+    const upto = TIERS.indexOf(name);
+    for (const it of state.items) {
+      if (it.status !== "present" || it.tier === "never-default") continue;
+      if (TIERS.indexOf(it.tier) > upto) continue;
+      if ((it.tags || []).some((t) => keep.has(t))) continue;
+      picked.add(it.id);
+    }
+  }
+  render();
+}
+
+function renderTags() {
+  const box = $("tags");
+  box.replaceChildren();
+  if (!state.tags.length) box.append(el("span", { class: "sub" }, "no exclusion tags"));
+  for (const t of state.tags) {
+    box.append(el("span", {
+      class: "chip" + (keep.has(t) ? " on" : ""), role: "button", tabindex: "0", title: "Leave everything tagged '" + t + "' alone",
+      onclick: () => {
+        if (keep.has(t)) keep.delete(t);
+        else { keep.add(t); for (const it of state.items) if ((it.tags || []).includes(t)) picked.delete(it.id); }
+        renderTags(); render();
+      },
+    }, t));
+  }
+}
+
+function notesBlock(it) {
+  const box = el("div", { class: "notes" });
+  if (it.notes) box.append(it.notes, el("br"));
+  if (it.returns && it.returns !== "no") box.append("Comes back after system updates: " + it.returns + ". ");
+  for (const s of it.sources || []) box.append(el("a", { href: s, target: "_blank", rel: "noreferrer noopener" }, new URL(s).hostname), " ");
+  return box;
+}
+
+function render() {
+  const body = $("items");
+  const q = $("filter").value.trim().toLowerCase();
+  const onlyPresent = $("onlyPresent").checked;
+  const rows = [];
+  let lastCat = null;
+  const items = state.items.filter((it) => (!onlyPresent || it.status === "present")
+    && (!q || (it.id + " " + it.name + " " + it.category + " " + it.tier).toLowerCase().includes(q)));
+  for (const it of items) {
+    if (it.category !== lastCat) {
+      lastCat = it.category;
+      rows.push(el("tr", { class: "cat" }, el("td", { colspan: "4" }, it.category)));
+    }
+    const can = selectable(it);
+    const box = el("input", { type: "checkbox", "aria-label": it.name, disabled: !can, checked: picked.has(it.id),
+      onchange: (e) => { if (e.target.checked) picked.add(it.id); else picked.delete(it.id); updateBar(); } });
+    box.checked = picked.has(it.id);
+    const name = el("td", {},
+      el("button", { class: "link", onclick: () => { if (open.has(it.id)) open.delete(it.id); else open.add(it.id); render(); } }, it.name),
+      el("div", { class: "detail" }, it.id));
+    if (it.tier === "never-default" && it.status === "present" && !unlocked.has(it.id)) {
+      name.append(el("div", { class: "notes" }, "Protected by default. ",
+        el("button", { class: "link", onclick: () => { open.add(it.id); unlocked.add(it.id); render(); } }, "Read the notes and unlock")));
+    }
+    if (open.has(it.id)) name.append(notesBlock(it));
+    rows.push(el("tr", { class: it.status === "present" ? "" : "off" },
+      el("td", {}, box), name,
+      el("td", {}, el("span", { class: "tier " + it.tier }, it.tier)),
+      el("td", { class: "hide-sm" }, el("div", { class: "status" }, it.status), el("div", { class: "detail" }, it.detail || ""))));
+  }
+  if (!rows.length) rows.push(el("tr", {}, el("td", { colspan: "4", class: "sub" }, "Nothing to show.")));
+  body.replaceChildren(...rows);
+  updateBar();
+}
+
+function updateBar() {
+  $("count").textContent = picked.size + " selected";
+  $("preview").disabled = picked.size === 0;
+}
+
+function showDialog(title, bodyNodes, buttons) {
+  $("dlgTitle").textContent = title;
+  $("dlgBody").replaceChildren(...[bodyNodes].flat());
+  $("dlgButtons").replaceChildren(...buttons);
+  if (!$("dlg").open) $("dlg").showModal();
+}
+const closeBtn = (label) => el("button", { onclick: () => $("dlg").close() }, label || "Close");
+const busy = (text) => el("p", {}, el("span", { class: "spin" }), " " + text);
+
+function optionBoxes() {
+  if (!state.options.length) return [];
+  const nodes = [el("h2", { style: "margin-top:14px" }, "Only if you need them")];
+  for (const o of state.options) {
+    nodes.push(el("label", { class: "opt" }, el("input", { type: "checkbox", "data-opt": o.key }), " " + o.label, el("small", {}, o.help)));
+  }
+  return nodes;
+}
+function readOptions() {
+  const out = {};
+  for (const box of document.querySelectorAll("#dlg input[data-opt]")) out[box.getAttribute("data-opt")] = box.checked;
+  return out;
+}
+
+function changeTable(rows) {
+  const byId = new Map(state.items.map((i) => [i.id, i]));
+  return el("table", {}, el("tbody", {}, rows.map((r) => {
+    const it = byId.get(r.id) || { name: r.id, tier: "", notes: "" };
+    const cell = el("td", {}, el("strong", {}, it.name || r.id), el("div", { class: "detail" }, r.id + (r.detail ? " — " + r.detail : "")));
+    if (it.notes && it.tier !== "safe") cell.append(el("div", { class: "notes" }, it.notes));
+    if (it.returns === "yes" || it.returns === "sometimes") cell.append(el("div", { class: "notes" }, "Comes back after system updates: " + it.returns));
+    return el("tr", {}, cell, el("td", {}, el("span", { class: "tier " + it.tier }, r.status && r.status !== "present" ? r.status : it.tier)));
+  })));
+}
+
+async function preview() {
+  showDialog("Building plan", busy("Dry run. Nothing is being changed."), []);
+  let r;
+  try { r = await api("/api/plan", { only: [...picked] }); }
+  catch (e) { return showDialog("Plan failed", el("pre", {}, e.message), [closeBtn()]); }
+  const changes = r.plan ? r.plan.items.filter((i) => i.action === "CHANGE") : [];
+  if (r.exitCode !== 0 || !r.plan) return showDialog("Plan failed (exit " + r.exitCode + ")", el("pre", {}, r.output), [closeBtn()]);
+  const skipped = r.plan.items.length - changes.length;
+  if (!changes.length) return showDialog("Nothing to change", el("p", {}, "Everything you ticked is already done, absent or blocked."), [closeBtn()]);
+  const body = [
+    el("p", {}, changes.length + " change(s). " + (skipped ? skipped + " ticked item(s) need no change or were refused by the engine. " : "")
+      + "A backup is taken first; every change is logged and can be reverted from History."),
+    changeTable(changes), ...optionBoxes(),
+  ];
+  showDialog("Review plan", body, [
+    closeBtn("Cancel"),
+    el("button", { class: "danger", onclick: () => apply(r.planFile) }, "Apply " + changes.length + " change(s)"),
+  ]);
+}
+
+function resultBody(r) {
+  const nodes = [];
+  if (r.log && r.log.changes) {
+    const done = r.log.changes.filter((c) => !String(c.status).startsWith("skipped-"));
+    nodes.push(el("p", {}, "Outcome: " + r.log.outcome + (r.log.abortReason ? " — " + r.log.abortReason : "")));
+    if (done.length) nodes.push(changeTable(done));
+  }
+  nodes.push(el("details", { open: r.exitCode !== 0 }, el("summary", {}, "Engine output (exit " + r.exitCode + ")"), el("pre", {}, r.output)));
+  return nodes;
+}
+
+async function apply(planFile) {
+  const options = readOptions();
+  showDialog("Applying", busy(state.platform === "windows"
+    ? "Accept the Windows elevation prompt if one appears. This can take a few minutes."
+    : "This can take a few minutes."), []);
+  let r;
+  try { r = await api("/api/apply", { planFile, options }); }
+  catch (e) { return showDialog("Apply failed", el("pre", {}, e.message), [closeBtn()]); }
+  const title = r.exitCode === 0 ? "Done" : r.exitCode === 2 ? "Stopped before changing anything" : "Finished with problems";
+  showDialog(title, resultBody(r), [closeBtn()]);
+  picked.clear();
+  await load();
+}
+
+async function revert(run) {
+  showDialog("Checking revert", busy("Dry run."), []);
+  let r;
+  try { r = await api("/api/revert", { logFile: run.file, apply: false }); }
+  catch (e) { return showDialog("Revert failed", el("pre", {}, e.message), [closeBtn()]); }
+  if (r.exitCode !== 0) return showDialog("Revert not possible (exit " + r.exitCode + ")", el("pre", {}, r.output), [closeBtn()]);
+  showDialog("Revert run " + run.runId + "?", [el("p", {}, "This undoes " + run.changed + " change(s) from that run, newest first."), el("pre", {}, r.output), ...optionBoxes()], [
+    closeBtn("Cancel"),
+    el("button", { class: "danger", onclick: async () => {
+      const options = readOptions();
+      showDialog("Reverting", busy("Accept the elevation prompt if one appears."), []);
+      try {
+        const done = await api("/api/revert", { logFile: run.file, apply: true, options });
+        showDialog(done.exitCode === 0 ? "Reverted" : "Revert finished with problems", resultBody(done), [closeBtn()]);
+      } catch (e) { showDialog("Revert failed", el("pre", {}, e.message), [closeBtn()]); }
+      await load();
+    } }, "Revert"),
+  ]);
+}
+
+function renderRuns(runs) {
+  const box = $("runs");
+  if (!runs.length) { box.textContent = "No runs yet."; return; }
+  box.replaceChildren(el("table", {}, el("tbody", {}, runs.map((run) => el("tr", {},
+    el("td", {}, run.startedAt ? new Date(run.startedAt).toLocaleString() : run.runId),
+    el("td", {}, run.kind === "revert" ? "revert" : "debloat"),
+    el("td", {}, run.outcome + " · " + run.changed + " change(s)"),
+    el("td", { style: "text-align:right" }, run.kind === "debloat" && run.changed > 0
+      ? el("button", { onclick: () => revert(run) }, "Revert…") : ""))))));
+}
+
+async function load() {
+  $("notices").replaceChildren();
+  try {
+    state = await api("/api/state");
+    const firstSeen = new Map();
+    for (const it of state.items) if (!firstSeen.has(it.category)) firstSeen.set(it.category, firstSeen.size);
+    state.items.sort((a, b) => firstSeen.get(a.category) - firstSeen.get(b.category));
+    $("machine").textContent = state.machine.summary;
+    for (const w of state.warnings || []) notice(w);
+    for (const id of [...picked]) if (!state.items.some((i) => i.id === id && i.status === "present")) picked.delete(id);
+    renderTags(); render();
+    renderRuns(await api("/api/runs"));
+  } catch (e) {
+    $("machine").textContent = "";
+    notice("Could not read machine state: " + e.message, true);
+    $("items").replaceChildren();
+  }
+}
+
+for (const b of document.querySelectorAll("button[data-preset]")) b.addEventListener("click", () => state && applyPreset(b.getAttribute("data-preset")));
+$("filter").addEventListener("input", () => state && render());
+$("onlyPresent").addEventListener("change", () => state && render());
+$("refresh").addEventListener("click", load);
+$("preview").addEventListener("click", preview);
+$("quit").addEventListener("click", async () => {
+  try { await api("/api/quit", {}); } catch (e) { /* server is gone */ }
+  document.body.replaceChildren(el("main", {}, el("p", { style: "padding:24px" }, "Winnow has stopped. You can close this tab.")));
+});
+load();
+</script>
+</body>
+</html>
