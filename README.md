@@ -29,6 +29,28 @@ applies it only after you approve.
 
 The agent's rules are in [AGENTS.md](AGENTS.md). It may run the repo's scripts and nothing else.
 
+## GUI
+
+Prefer clicking to prompting? Start the local page and your browser opens on it:
+
+```shell
+# Windows
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Start-Gui.ps1
+# Linux, macOS (as your normal user; run `sudo -v` first if you plan to apply)
+python3 scripts/winnow_gui.py
+```
+
+It shows what the catalog found on this machine, lets you tick items (presets for safe,
+moderate, aggressive; "keep" chips for things you use), previews the plan as a dry run, applies
+it after you confirm, and lists past runs with a Revert button. Protected (`never-default`)
+items stay locked until you open their notes and unlock them one by one.
+
+The GUI is a thin front end: it runs the same scripts with the same guards, backups and logs,
+and adds no way to change the system that the command line lacks. The server listens on
+loopback only, every request needs the one-time token in the URL it prints, requests from other
+origins are refused, and it accepts only plan and log files it wrote itself. No dependencies
+and nothing is fetched from the network. Stop it with Quit or Ctrl+C.
+
 ## Without an agent: Windows
 
 From the repo root, in Windows PowerShell 5.1:
@@ -136,6 +158,9 @@ scripts/Invoke-Debloat.ps1        Windows entry point
 scripts/Test-State.ps1            Windows read-only state report
 scripts/modules/*.psm1            Common, Appx, Services, Tasks, Registry, Policies, AI-Features
 scripts/winnow.py                 Linux and macOS engine (standard library only)
+scripts/Start-Gui.ps1             GUI server for Windows
+scripts/winnow_gui.py             GUI server for Linux and macOS
+gui/index.html                    the GUI page (one file, no dependencies)
 tests/                            Pester 5 tests (Windows), unittest + integration.sh (Linux, macOS)
 research/                         findings per track, synthesis, sources, tools comparison
 logs/                             plans, run logs, registry exports (gitignored)
