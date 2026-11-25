@@ -5,8 +5,8 @@ macOS, runnable by a coding agent.
 
 Sourced catalogs of preinstalled bloat, telemetry and nags, plus small engines that remove
 them reversibly. It is built to be driven by an API-backed coding agent (Claude Code, Codex
-CLI, Gemini CLI): you paste one prompt, the agent inspects your machine, shows you a plan, and
-applies it only after you approve.
+CLI, Gemini CLI): you paste one prompt and walk away. The agent runs the aggressive profile,
+asks nothing, and reports when it is done. Every run can be reverted from its log.
 
 | OS | Targets | Catalog | Engine |
 |---|---|---|---|
@@ -18,14 +18,18 @@ applies it only after you approve.
 > its catalogs and dry-run logic, and CI runs real change-and-revert cycles on throwaway
 > targets on Windows, Ubuntu and macOS runners, but the shipped catalogs have **not** been
 > applied on a range of real machines yet. The Linux and macOS catalogs are newer and less
-> proven than the Windows one. Use it on a machine you can afford to repair, keep the run log,
-> and read the plan before approving it. No warranty; see [LICENSE](LICENSE).
+> proven than the Windows one. Use it on a machine you can afford to repair and keep the run
+> log; it is what the revert uses. No warranty; see [LICENSE](LICENSE).
 
 ## Quick start
 
 1. Open your coding agent in a terminal on the machine.
 2. Paste the prompt for your OS from [PROMPT.md](PROMPT.md).
-3. Answer its two questions (profile, exclusions), read the plan, approve or not.
+3. Walk away. On Windows, accept the one UAC prompt (or start the terminal as administrator
+   and there is none).
+
+The default is the `aggressive` profile with nothing kept. To change that, add a line to the
+prompt, such as `Use the safe profile.` or `Keep gaming and OneDrive.`
 
 The agent's rules are in [AGENTS.md](AGENTS.md). It may run the repo's scripts and nothing else.
 
@@ -59,10 +63,11 @@ From the repo root, in Windows PowerShell 5.1:
 # 1. What is on this machine? (read-only)
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Test-State.ps1
 
-# 2. Plan (read-only; this is the default mode). Prints PLAN_FILE=...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-Debloat.ps1 -Profile safe -Exclude gaming,office
+# 2. One shot: apply the aggressive profile now (one UAC prompt)
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-Debloat.ps1 -Auto
 
-# 3. Apply exactly that plan (UAC prompt)
+# 2b. Or look first: plan (read-only, prints PLAN_FILE=...), then apply exactly that plan
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-Debloat.ps1 -Profile safe -Exclude gaming,office
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-Debloat.ps1 -Apply -Plan logs\plan-<id>.json -Elevate
 
 # 4. Undo a run
@@ -71,8 +76,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-Debloat.p
 
 | Parameter | Meaning |
 |---|---|
-| `-Profile safe\|moderate\|aggressive` | Cumulative tiers. Default `safe`. |
-| `-DryRun` | The default. Nothing changes without `-Apply`. |
+| `-Auto` | One shot: apply now. Same as `-Apply -Elevate -EnableSystemRestore -AllowUntestedBuild`. |
+| `-Profile safe\|moderate\|aggressive` | Cumulative tiers. Default `aggressive`. |
+| `-DryRun` | The default without `-Auto` or `-Apply`: nothing changes. |
 | `-Apply` | Make changes. Needs elevation, a restore point and a registry export, or it stops. |
 | `-Plan <file>` | Apply only what that dry-run plan listed. |
 | `-Only <ids>` | Act on named catalog items only. The only way to touch `never-default` items. |
@@ -92,7 +98,8 @@ commands that need it, so run `sudo -v` first.
 
 ```sh
 python3 scripts/winnow.py state                                  # read-only report
-python3 scripts/winnow.py plan --profile safe --exclude media    # dry run, prints PLAN_FILE=...
+python3 scripts/winnow.py auto                                   # one shot: aggressive profile, plan and apply
+python3 scripts/winnow.py plan --profile safe --exclude media    # or look first: dry run, prints PLAN_FILE=...
 python3 scripts/winnow.py apply --plan logs/plan-<id>.json       # apply exactly that plan
 python3 scripts/winnow.py revert logs/run-<id>.json --apply      # undo a run
 ```
@@ -137,7 +144,7 @@ Never does:
 
 ## Safety model
 
-- Dry run by default; a plan file records exactly what was shown to you.
+- Nothing changes without `-Auto`/`auto` or `-Apply`/`apply`. A preview writes a plan file that records exactly what was shown.
 - Before the first change: a verified restore point and a `.reg` export of every key the run touches.
 - Each change is logged with its prior state in `logs\run-<id>.json` before the next one starts.
 - Idempotent: re-running skips what is already done.

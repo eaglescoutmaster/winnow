@@ -82,6 +82,14 @@ Describe 'Invoke-Debloat.ps1 input and precondition handling' {
     It 'exits 4 for an unknown -Exclude tag' {
         (Invoke-Entry -ArgList '-Exclude', 'printers').Code | Should -Be 4
     }
+    It 'exits 4 when -Auto is combined with -DryRun' {
+        (Invoke-Entry -ArgList '-Auto', '-DryRun').Code | Should -Be 4
+    }
+
+    It 'defaults to the aggressive profile' {
+        (Invoke-Entry).Text | Should -Match 'SELECTION=profile:aggressive'
+    }
+
     It 'exits 4 when -DryRun and -Apply are combined' {
         (Invoke-Entry -ArgList '-DryRun', '-Apply').Code | Should -Be 4
     }

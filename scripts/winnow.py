@@ -3,6 +3,7 @@
 contains no removal lists of its own. Python 3.8+, standard library only.
 
   winnow.py state [--json]                          read-only report
+  winnow.py auto [--profile P] [--exclude a,b] [--only id,id] [--no-snapshot]   one shot: plan and apply
   winnow.py plan [--profile P] [--exclude a,b] [--only id,id]   dry run, writes logs/plan-<id>.json
   winnow.py apply --plan FILE [--no-snapshot]       changes the system; only what the plan listed
   winnow.py revert LOG [--apply] [--no-snapshot]    undo a run (dry run unless --apply)
@@ -944,8 +945,18 @@ def cmd_plan(args, sh, root):
                                 "status": e["status"], "action": ACTION.get(e["status"]), "detail": e["detail"], "target": e["item"]["target"]}
                                for e in entries]})
     out("PLAN_FILE=%s" % path)
-    out("No changes were made. To apply exactly this plan: winnow.py apply --plan <PLAN_FILE>")
+    args.plan = path
+    if getattr(args, "command", "") != "auto":
+        out("No changes were made. To apply exactly this plan: winnow.py apply --plan <PLAN_FILE>")
     return EXIT_OK
+
+
+def cmd_auto(args, sh, root):
+    # Unattended: plan and apply in one go, no approval step in between.
+    code = cmd_plan(args, sh, root)
+    if code != EXIT_OK:
+        return code
+    return cmd_apply(args, sh, root)
 
 
 class RunLog:
@@ -1112,9 +1123,14 @@ def main(argv=None, sh=None):
     s = sub.add_parser("state", help="read-only report")
     s.add_argument("--json", action="store_true")
     s = sub.add_parser("plan", help="dry run; writes a plan file")
-    s.add_argument("--profile", choices=sorted(PROFILES), default="safe")
+    s.add_argument("--profile", choices=sorted(PROFILES), default="aggressive")
     s.add_argument("--exclude", default="")
     s.add_argument("--only", default="")
+    s = sub.add_parser("auto", help="unattended: plan and apply in one go (default profile: aggressive)")
+    s.add_argument("--profile", choices=sorted(PROFILES), default="aggressive")
+    s.add_argument("--exclude", default="")
+    s.add_argument("--only", default="")
+    s.add_argument("--no-snapshot", action="store_true")
     s = sub.add_parser("apply", help="apply an approved plan")
     s.add_argument("--plan", required=True)
     s.add_argument("--no-snapshot", action="store_true")
@@ -1128,7 +1144,7 @@ def main(argv=None, sh=None):
         return EXIT_INVALID
     sh = sh or Shell()
     try:
-        code = {"state": cmd_state, "plan": cmd_plan, "apply": cmd_apply, "revert": cmd_revert}[args.command](args, sh, root)
+        code = {"state": cmd_state, "plan": cmd_plan, "auto": cmd_auto, "apply": cmd_apply, "revert": cmd_revert}[args.command](args, sh, root)
     except Stop as s:
         out(s.message)
         code = s.code

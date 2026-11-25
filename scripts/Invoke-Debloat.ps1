@@ -4,12 +4,16 @@
     Data-driven Windows debloat. Reads catalog/items.json; contains no removal lists of its own.
 
 .DESCRIPTION
-    Default mode is a dry run: it prints a plan, writes it to logs/plan-<id>.json and changes nothing.
-    Real changes need -Apply, an elevated Windows PowerShell 5.1 session (or -Elevate), a restore
+    One-shot use: -Auto applies the aggressive profile with no questions (elevates, turns on System
+    Restore if needed, accepts an untested build). Without -Auto or -Apply it is a dry run: it prints
+    a plan, writes it to logs/plan-<id>.json and changes nothing.
+    Real changes need an elevated Windows PowerShell 5.1 session (or -Elevate), a restore
     point and a registry export. Every change is written to logs/run-<id>.json, which -Revert uses.
 
 .PARAMETER Profile
-    safe | moderate | aggressive. Tiers are cumulative. never-default items are never selected by a profile.
+    safe | moderate | aggressive (default). Tiers are cumulative. never-default items are never selected by a profile.
+.PARAMETER Auto
+    Unattended run: same as -Apply -Elevate -EnableSystemRestore -AllowUntestedBuild. No plan file or approval step.
 .PARAMETER DryRun
     Explicit dry run (this is already the default).
 .PARAMETER Apply
@@ -37,7 +41,8 @@
 param(
     [Alias('Profile')]
     [ValidateSet('safe', 'moderate', 'aggressive')]
-    [string]$ProfileName = 'safe',
+    [string]$ProfileName = 'aggressive',
+    [switch]$Auto,
     [switch]$DryRun,
     [switch]$Apply,
     [string]$Revert,
@@ -181,6 +186,10 @@ try {
     $Exclude = Split-List $Exclude
     $badTags = @($Exclude | Where-Object { @('gaming', 'office', 'onedrive', 'edge') -notcontains $_ })
     if ($badTags.Count) { Stop-Run 4 "INVALID: unknown -Exclude tag(s): $($badTags -join ', '). Allowed: gaming, office, onedrive, edge" }
+    if ($Auto) {
+        if ($DryRun -or $Revert -or $Plan) { Stop-Run 4 'INVALID: -Auto cannot be combined with -DryRun, -Revert or -Plan.' }
+        $Apply = $true; $Elevate = $true; $EnableSystemRestore = $true; $AllowUntestedBuild = $true
+    }
     if ($DryRun -and $Apply) { Stop-Run 4 'INVALID: -DryRun and -Apply are mutually exclusive.' }
     if ($TargetUserSid) { Set-RegistryTargetSid -Sid $TargetUserSid }
 
