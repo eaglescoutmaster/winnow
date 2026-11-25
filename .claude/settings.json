@@ -11,15 +11,14 @@
       "Bash(dism.exe *)"
     ],
     "ask": [
-      "PowerShell(powershell.exe * -Apply*)",
-      "Bash(powershell.exe * -Apply*)",
       "Bash(sudo *)"
     ],
     "allow": [
       "PowerShell(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\Test-State.ps1*)",
       "PowerShell(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\Invoke-Debloat.ps1*)",
       "Bash(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\\\Test-State.ps1*)",
-      "Bash(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\\\Invoke-Debloat.ps1*)"
+      "Bash(powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\\\Invoke-Debloat.ps1*)",
+      "Bash(python3 scripts/winnow.py *)"
     ]
   }
 }
