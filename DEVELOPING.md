@@ -9,7 +9,7 @@ Notes for maintainers. Not imported by `CLAUDE.md`/`AGENTS.md`, so debloat agent
 | v0.1.0 | Windows engine, catalog (152 items), CI, managed/pending-restart guards |
 | v0.2.0 | Linux (81 items) and macOS (31 items) catalogs, `scripts/winnow.py` |
 | v0.3.0 | Local GUI for all three platforms |
-| v0.4.0 (unreleased) | One-shot mode: `-Auto` / `auto`, aggressive default, agent contract asks nothing |
+| v0.4.0 | One-shot mode: `-Auto` / `auto`, aggressive default, agent contract asks nothing; Edge never-default and PDF items (154 items) |
 
 `PROMPT.md` pins the clone to a tag. Bump it in the same commit that precedes a new tag.
 
