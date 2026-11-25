@@ -1548,6 +1548,94 @@
       ]
     },
     {
+      "id": "edge-never-default-browser",
+      "name": "Edge: never check for or offer to become the default browser",
+      "category": "edge",
+      "tier": "moderate",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "DefaultBrowserSettingEnabled"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 0
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Edge stops checking whether it is the default browser and its own 'make default' controls are turned off. It does not change which browser Windows currently uses as default; Windows only lets the signed-in user change that, in Settings > Apps > Default apps.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/defaultbrowsersettingenabled"
+      ]
+    },
+    {
+      "id": "edge-open-pdf-externally",
+      "name": "Edge: do not open PDF files in the Edge viewer",
+      "category": "edge",
+      "tier": "moderate",
+      "tags": [
+        "edge"
+      ],
+      "builds": {
+        "os": [
+          "win10",
+          "win11"
+        ],
+        "minBuild": 19045,
+        "maxBuild": null,
+        "note": "Applies by Edge version, not Windows build; see the policy page."
+      },
+      "returnsAfterFeatureUpdate": "unknown",
+      "target": {
+        "hive": "HKLM",
+        "path": "SOFTWARE\\Policies\\Microsoft\\Edge",
+        "name": "AlwaysOpenPdfExternally"
+      },
+      "detect": {
+        "op": "registry-equals",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "remove": {
+        "op": "policy-set",
+        "valueType": "DWord",
+        "value": 1
+      },
+      "revert": {
+        "op": "policy-restore",
+        "default": {
+          "absent": true
+        }
+      },
+      "notes": "Policy value: Windows or Edge shows the setting as managed by your organization until reverted. Edge's built-in PDF viewer is turned off; PDF links are downloaded and opened with the default PDF app. Microsoft documents one exception: while Edge itself is the Windows default app for .pdf, PDFs keep opening in Edge. Install another PDF reader or browser and set it as the default for .pdf to finish the job.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies/alwaysopenpdfexternally"
+      ]
+    },
+    {
       "id": "edge-new-tab-content-off",
       "name": "Edge: turn off Microsoft content on the new tab page",
       "category": "edge",
